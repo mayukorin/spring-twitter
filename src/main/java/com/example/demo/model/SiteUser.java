@@ -27,7 +27,6 @@ public class SiteUser {
 	private String name;
 	
 	@NotBlank
-	@Size(min = 4,max=255)
 	private String password;
 	
 	private String token;
