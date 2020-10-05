@@ -16,7 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class User {
+public class SiteUser {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,8 +32,11 @@ public class User {
 	
 	private String token;
 	
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="siteuser")
 	private List<Article> articles;
+	
+	@OneToMany(mappedBy="siteuser")
+	private List<Heart> hearts;
 	
 	
 }

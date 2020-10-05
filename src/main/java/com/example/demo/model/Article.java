@@ -33,7 +33,7 @@ public class Article {
 	private Timestamp created_at;
 	
 	@ManyToOne
-	private User user;
+	private SiteUser siteuser;
 	
 	@OneToMany(mappedBy="article")
 	private List<Heart> hearts;
