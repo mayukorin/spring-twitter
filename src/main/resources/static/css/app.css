@@ -1,0 +1,35 @@
+@charset "UTF-8";
+
+body {
+    color: #333333;
+    font-family: "Hiragino Kaku Gothic Pro",Meiryo,"MS PGothic",Helvetica,Arial,sans-serif;
+}
+
+#header {
+    width: 100%;
+    height: 70px;
+    background-color: #333333;
+}
+
+#content {
+    width: 94%;
+    margin-top: 15px;
+    padding-left: 3%;
+}
+
+h1 {
+    width: 94%;
+    padding-top: 17px;
+    padding-left: 3%;
+    font-size: 24px;
+    color: #eeeeee;
+}
+
+button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+#footer {
+    text-align: center;
+}
