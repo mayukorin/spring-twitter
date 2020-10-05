@@ -42,7 +42,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		
 		grantedAuthories.add(new SimpleGrantedAuthority("ROLE_USER"));
 		
-		return new User(user.getName(),user.getPassword(),grantedAuthories);
+		return new UserDetailsImpl(user,grantedAuthories);
 	}
 
 }
