@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Twitterアプリ</title>
+	<th:block th:insert="fragments/base :: head"></th:block>
+</head>
+<body>
+	<th:block th:fragment="article_form">
+		<label for="content">コメント</label><br/>
+		<textarea th:field="*{content}" rows="10" cols="50"></textarea>
+		<br/><br/>
+		
+	</th:block>
+
+</body>
+</html>

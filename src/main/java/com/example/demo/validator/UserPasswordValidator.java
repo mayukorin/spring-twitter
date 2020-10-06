@@ -29,6 +29,10 @@ private final UserRepository userRepository;
 		try {
 			
 			UserDetailsImpl loginUser = (UserDetailsImpl) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
+			
+			if (value == null || value.equals("")) {
+				
+			}
 			return true;
 		} catch(ClassCastException e) {
 			System.out.println("新規会員登録の時");

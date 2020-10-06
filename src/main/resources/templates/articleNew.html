@@ -12,7 +12,15 @@
 		</div>
 		<div id="content">
 			
-			<p><a th:href="@{/article_new}">コメントを投稿する</a></p>
+			<h2>コメント投稿</h2>
+			<form th:action="@{/article_register}" th:object="${article}" method="post" novalidate>
+				<th:block th:insert="fragments/_form_article :: article_form">
+					
+				</th:block>
+				
+				<button>登録</button>
+			</form>
+			
 		</div>
 		<div id="footer">
 			<th:block th:insert="fragments/base :: footer"></th:block>
