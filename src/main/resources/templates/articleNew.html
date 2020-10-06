@@ -13,7 +13,7 @@
 		<div id="content">
 			
 			<h2>コメント投稿</h2>
-			<form th:action="@{/article_register}" th:object="${article}" method="post" novalidate>
+			<form th:action="@{/article_create}" th:object="${article}" method="post" novalidate>
 				<th:block th:insert="fragments/_form_article :: article_form">
 					
 				</th:block>

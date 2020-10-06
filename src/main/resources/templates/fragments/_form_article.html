@@ -9,6 +9,7 @@
 	<th:block th:fragment="article_form">
 		<label for="content">コメント</label><br/>
 		<textarea th:field="*{content}" rows="10" cols="50"></textarea>
+		<div th:errors="*{content}"></div>
 		<br/><br/>
 		
 	</th:block>

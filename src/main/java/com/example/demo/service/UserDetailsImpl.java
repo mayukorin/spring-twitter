@@ -32,6 +32,10 @@ public class UserDetailsImpl extends User {
 	public String getName() {
 		return siteuser.getName();
 	}
+	
+	public SiteUser getSiteUser() {
+		return siteuser;
+	}
 
 
 
