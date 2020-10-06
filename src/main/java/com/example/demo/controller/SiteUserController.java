@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
+import java.util.Optional;
+
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -29,13 +32,13 @@ public class SiteUserController {
 		return "login";
 	}
 	
+	
 	@GetMapping("/")
-	public String home(Authentication loginUser,Model model) {
+	public String home(Authentication loginUser,Model model,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
-		model.addAttribute("username", loginUser.getName());
+		model.addAttribute("user_name", loginUser.getName());
 		
 		
-		System.out.println(((UserDetailsImpl)loginUser.getPrincipal()).getUsername());
 		return "home";
 	}
 	
@@ -56,6 +59,34 @@ public class SiteUserController {
 		userRepository.save(user);
 		
 		return "redirect:/login?register";
+		
+	}
+	
+	@GetMapping("/user_edit")
+	public String editUser(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
+		
+		model.addAttribute("login_user", userRepository.findById(userDetail.getId()));
+		
+		Optional<SiteUser> u = userRepository.findById(userDetail.getId());
+		
+		System.out.println(u.get().getId());
+		return "userEdit";
+	}
+	
+	@PostMapping("/user_edit_register")
+	public String userEdit(@Validated @ModelAttribute("login_user") SiteUser user,BindingResult result) {
+		
+		if (result.hasErrors()) {
+			
+			return "userEdit";
+		}
+		
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		userRepository.save(user);
+		
+		return "redirect:/logout";
+		
 		
 	}
 

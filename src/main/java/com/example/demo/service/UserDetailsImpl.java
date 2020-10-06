@@ -28,6 +28,10 @@ public class UserDetailsImpl extends User {
 	public String getToken() {
 		return siteuser.getToken();
 	}
+	
+	public String getName() {
+		return siteuser.getName();
+	}
 
 
 
@@ -38,6 +42,11 @@ public class UserDetailsImpl extends User {
 	@Override
 	public String getPassword() {
 		return siteuser.getPassword();
+	}
+	
+	public void setPassword(String password) {
+		
+		this.siteuser.setPassword(password);
 	}
 	@Override
 	public String getUsername() {

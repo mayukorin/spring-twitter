@@ -38,3 +38,24 @@ button {
 #footer {
     text-align: center;
 }
+
+#header_menu {
+    width: 57%;
+    padding-top: 17px;
+    padding-left: 3%;
+    display: inline-block;
+}
+
+#user_name {
+    color: #cccccc;
+    width: 36%;
+    padding-right: 3%;
+    text-align: right;
+    display: inline-block;
+}
+
+#user_name a {
+    color: #cccccc;
+    
+}
+

@@ -11,19 +11,17 @@
 			<th:block th:insert="fragments/base :: header"></th:block>
 		</div>
 		<div id="content">
-			<h2>ユーザ登録</h2>
-			<form th:action="@{/user_register}" th:object="${user}" method="post" novalidate>
+			
+			<h2>ユーザ情報編集</h2>
+			<form th:action="@{/user_edit_register}" th:object="${login_user}" method="post" novalidate>
 				<th:block th:insert="fragments/_form_user :: user_form">
+					
 				</th:block>
+				
 				<button>登録</button>
 			
 			</form>
-			<p><a th:href="@{/login}">ログインはこちらから</a></p>
 		</div>
-		<div id="footer">
-			<th:block th:insert="fragments/base :: footer"></th:block>
-		</div>
-	
 	</div>
 
 </body>

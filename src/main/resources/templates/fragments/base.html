@@ -13,6 +13,15 @@
 	<th:block th:fragment="header">
 		<h1>Twitterアプリ</h1>
 	</th:block>
+	<th:block th:fragment="login_header">
+		<div id="header_menu">
+			<h1>Twitterアプリ</h1>
+		</div>
+		<div id="user_name">
+			<a th:href="@{/user_edit}">[[${user_name}]]</a>
+			
+		</div>
+	</th:block>
 	
 	<th:block th:fragment="footer">
 			by MI

@@ -10,6 +10,9 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.example.demo.validator.UniqueLogin;
+import com.example.demo.validator.UserPassword;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +27,7 @@ public class SiteUser {
 	
 	@NotBlank
 	@Size(max=60)
+	@UniqueLogin
 	private String name;
 	
 	@NotBlank
