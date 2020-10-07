@@ -11,7 +11,27 @@
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
 		<div id="content">
+			<div th:if="${articles.size() > 0}">
+				<table id="article_table">
+					<thead>
+						<tr>
+							<th>コメント</th>
+							<th>投稿日</th>
+							<th>操作</th>
+						</tr>
+						
+					</thead>
+						<tr th:each="article:${articles}" th:object="${article}">
+							<td th:text="*{content}"></td>
+							<td th:text="${#dates.format(article.created_at, 'yyyy/MM/dd hh:mm')}"></td>
+							<td><a th:href="@{/article_delete{id}(id=*{id})}">削除する</a></td>
+						</tr>
+				
+				
+				</table>
 			
+			
+			</div>
 			<p><a th:href="@{/article_new}">コメントを投稿する</a></p>
 		</div>
 		<div id="footer">

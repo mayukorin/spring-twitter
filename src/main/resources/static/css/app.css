@@ -59,3 +59,15 @@ button {
     
 }
 
+table#article_table th {
+    width: 30%;
+    padding: 10px 2%;
+    border: 2px #808080 solid;
+}
+
+table#article_table td {
+    width: 29%;
+    padding: 10px 2%;
+    border: 2px #808080 solid;
+}
+

@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.model.Article;
@@ -23,6 +24,7 @@ public class ArticleController {
 	
 	
 	private final ArticleService articleService;
+
 	
 	@GetMapping("/article_new")
 	public String articleNew(@ModelAttribute("article") Article article) {
@@ -37,11 +39,17 @@ public class ArticleController {
 		} else {
 			
 			articleService.insert(article, userDetail);
-			return "home";
+			return "redirect:/";
 			
 			
 			
 		}
+	}
+	
+	@GetMapping("/article_delete{id}")
+	public String articleDelter(@PathVariable Long id) {
+		articleService.delete(id);
+		return "redirect:/";
 	}
 
 }

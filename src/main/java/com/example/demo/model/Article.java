@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class Article {
 	@Size(max=140)
 	private String content;
 	
-	private Timestamp created_at;
+	private Date created_at;
 	
 	@ManyToOne
 	private SiteUser siteuser;
@@ -42,7 +43,7 @@ public class Article {
 	
 	@PrePersist
 	public void onPrePersist() {
-		setCreated_at(new Timestamp(System.currentTimeMillis()));
+		setCreated_at(new Date());
 	}
 	
 	

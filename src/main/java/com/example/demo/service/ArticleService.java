@@ -23,6 +23,10 @@ public class ArticleService {
 		articleRepository.save(article);
 	}
 	
+	public void delete(Long id) {
+		articleRepository.deleteById(id);
+	}
+	
 	
 
 }

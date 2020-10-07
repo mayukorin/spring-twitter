@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
+import java.util.Collection;
 import java.util.Optional;
+
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.model.Article;
 import com.example.demo.model.SiteUser;
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.service.ArticleService;
 import com.example.demo.service.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -26,6 +31,8 @@ public class SiteUserController {
 	
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
+	
+	private final ArticleRepository articleRepository;
 	
 	@GetMapping("/login")
 	public String login() {
@@ -38,8 +45,14 @@ public class SiteUserController {
 		
 		model.addAttribute("user_name", loginUser.getName());
 		
+		Collection<Article> articles = articleRepository.serachArticleBySiteuser(userDetail.getSiteUser());
+		System.out.println(articles.size());
+		
+		model.addAttribute("articles", articles);
 		
 		return "home";
+		
+		
 	}
 	
 	@GetMapping("/user_register")
@@ -67,9 +80,6 @@ public class SiteUserController {
 		
 		model.addAttribute("login_user", userRepository.findById(userDetail.getId()));
 		
-		Optional<SiteUser> u = userRepository.findById(userDetail.getId());
-		
-		System.out.println(u.get().getId());
 		return "userEdit";
 	}
 	
