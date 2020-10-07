@@ -1,6 +1,7 @@
 package com.example.demo.repository;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -14,4 +15,9 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 
 	@Query("select a from Article a where a.siteuser = :#{#user}")
 	Collection<Article> serachArticleBySiteuser(SiteUser user);
+	
+	@Query("select a from Article a where a.id = :#{#id}")
+	Article serachArticleById(Long id);
+	
+	
 }

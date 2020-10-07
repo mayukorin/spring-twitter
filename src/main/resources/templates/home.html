@@ -11,20 +11,25 @@
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
 		<div id="content">
-			<div th:if="${articles.size() > 0}">
+			<div th:if="${articleLike.size() > 0}">
 				<table id="article_table">
 					<thead>
 						<tr>
 							<th>コメント</th>
 							<th>投稿日</th>
 							<th>操作</th>
+							<th>操作</th>
 						</tr>
 						
 					</thead>
-						<tr th:each="article:${articles}" th:object="${article}">
-							<td th:text="*{content}"></td>
-							<td th:text="${#dates.format(article.created_at, 'yyyy/MM/dd hh:mm')}"></td>
-							<td><a th:href="@{/article_delete{id}(id=*{id})}">削除する</a></td>
+						<tr th:each="artLi:${articleLike}" th:object="${artLi}">
+							<td th:text="*{key.content}"></td>
+							<td th:text="${#dates.format(artLi.key.created_at, 'yyyy/MM/dd hh:mm')}"></td>
+							<td><a th:href="@{/article_delete{id}(id=*{key.id})}">削除する</a></td>
+							<td th:if="${artLi.value eq 0}"><a th:href="@{/heart_create{id}(id=*{key.id})}"><i class="far fa-heart"></i></a>
+							<td th:if="${artLi.value eq 1}"><a th:href="@{/heart_delete{id}(id=*{key.id})}"><i class="fas fa-heart"></i></a></td>
+							
+							
 						</tr>
 				
 				
