@@ -39,6 +39,9 @@ public class Article {
 	@OneToMany(mappedBy="article")
 	private List<Heart> hearts;
 	
+	@ManyToOne
+	private Channel channel;
+	
 	
 	
 	@PrePersist

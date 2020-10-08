@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Twitterアプリ</title>
+	<th:block th:insert="fragments/base :: head"></th:block>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<th:block th:insert="fragments/base :: login_header"></th:block>
+		</div>
+		<div id="content">
+			
+			
+				<form method="post" th:action="@{/channel_create}"  novalidate>
+				<label for="title">チャンネル名</label><br>
+				<input type="text" th:field="${channel.title}"><br>
+				<div th:errors="${channel.title}"></div><br>
+				
+				<label for="comment">コメント</label><br>
+				<textarea th:field="${article.content}" rows="10" cols="50"></textarea>
+				<div th:errors="${article.content}"></div><br>
+				
+				<button>登録</button>
+		
+			</form>
+			
+			
+			
+			
+			</div> 
+		</div>
+		<div id="footer">
+			<th:block th:insert="fragments/base :: footer"></th:block>
+		</div>
+
+</body>
+</html>

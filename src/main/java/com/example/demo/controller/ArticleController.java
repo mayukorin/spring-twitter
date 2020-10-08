@@ -28,6 +28,7 @@ public class ArticleController {
 		return "articleNew";
 	}
 	
+	/*:
 	@PostMapping("/article_create")
 	public String articleCreate(@Validated @ModelAttribute("article") Article article,BindingResult result,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
@@ -42,6 +43,7 @@ public class ArticleController {
 			
 		}
 	}
+	*/////////////
 	
 	@GetMapping("/article_delete{id}")
 	public String articleDelter(@PathVariable Long id) {

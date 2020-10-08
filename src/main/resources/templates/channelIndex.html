@@ -17,11 +17,12 @@
 				<div th:each="channel:${channels}" th:object="${channel}">
 					<div th:text="${channel.title}"></div>
 				</div>
-				<p><a th:href="@{/channel_create}">新しいチャンネルを作成する</a></p>
-			
+				
 			
 			
 			</div>
+			<p><a th:href="@{/channel_new}">新しいチャンネルを作成する</a></p>
+			
 		</div>
 		<div id="footer">
 			<th:block th:insert="fragments/base :: footer"></th:block>
