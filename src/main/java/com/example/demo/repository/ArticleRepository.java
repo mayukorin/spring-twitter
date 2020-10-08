@@ -13,8 +13,8 @@ import com.example.demo.model.SiteUser;
 public interface ArticleRepository extends JpaRepository<Article,Long> {
 	
 
-	@Query("select a from Article a where a.siteuser = :#{#user}")
-	Collection<Article> serachArticleBySiteuser(SiteUser user);
+	@Query("select a from Article a where a.siteuser.id = :#{#id}")
+	Collection<Article> serachArticleBySiteuser(Long id);
 	
 	@Query("select a from Article a where a.id = :#{#id}")
 	Article serachArticleById(Long id);

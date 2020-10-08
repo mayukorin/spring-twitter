@@ -50,7 +50,7 @@ public class SiteUserController {
 		
 		model.addAttribute("user_name", userDetail.getSiteUser().getName());
 		
-		Collection<Article> articles = articleRepository.serachArticleBySiteuser(userDetail.getSiteUser());
+		Collection<Article> articles = articleRepository.serachArticleBySiteuser(userDetail.getSiteUser().getId());
 		
 		for (Article art:articles) {
 			articleLike.put(art, heartRepository.countByArticle(art));

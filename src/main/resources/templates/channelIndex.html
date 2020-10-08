@@ -11,25 +11,16 @@
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
 		<div id="content">
-			<div th:if="${seasons.size()>0}">
-				<div th:each="season:${seasons}" th:object="${season}">
-					<div th:text="${season.year}+${season.seasonName.seasonName}"></div><br/>
-					<div th:if = "${season.doramas.size() > 0}">
-					
-						<div th:each="dorama:${season.doramas}" th:object="${dorama}">
-						
-							<a th:href="@{/channelIndex{id}(id=*{id})}">[[*{name}]]</a><br>
-						
-						</div>
-						<br>
-					
-					
-					
-					
-					</div>
-				
-				
+			<div th:text="${dorama.season.year}+${dorama.season.seasonName.seasonName}"></div><br>
+			<div th:text="${dorama.name}"></div>
+			<div th:if="${channels.size() > 0}">
+				<div th:each="channel:${channels}" th:object="${channel}">
+					<div th:text="${channel.title}"></div>
 				</div>
+				<p><a th:href="@{/channel_create}">新しいチャンネルを作成する</a></p>
+			
+			
+			
 			</div>
 		</div>
 		<div id="footer">
