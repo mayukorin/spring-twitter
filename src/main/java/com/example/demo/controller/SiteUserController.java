@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.springframework.security.core.Authentication;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ import com.example.demo.model.SiteUser;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.HeartRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.service.ArticleService;
+
 import com.example.demo.service.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -44,16 +44,17 @@ public class SiteUserController {
 	
 	
 	@GetMapping("/")
-	public String home(Authentication loginUser,Model model,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	public String home(Model model,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
 		Map<Article,Integer> articleLike = new LinkedHashMap<>();
 		
-		model.addAttribute("user_name", loginUser.getName());
+		model.addAttribute("user_name", userDetail.getSiteUser().getName());
 		
 		Collection<Article> articles = articleRepository.serachArticleBySiteuser(userDetail.getSiteUser());
 		
 		for (Article art:articles) {
 			articleLike.put(art, heartRepository.countByArticle(art));
+			
 			
 			
 		}
@@ -88,7 +89,7 @@ public class SiteUserController {
 	@GetMapping("/user_edit")
 	public String editUser(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
 		
-		model.addAttribute("login_user", userRepository.findById(userDetail.getId()));
+		model.addAttribute("login_user", userRepository.findById(userDetail.getSiteUser().getId()));
 		
 		return "userEdit";
 	}

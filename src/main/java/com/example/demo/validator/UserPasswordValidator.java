@@ -35,6 +35,7 @@ private final UserRepository userRepository;
 			}
 			return true;
 		} catch(ClassCastException e) {
+			
 			System.out.println("新規会員登録の時");
 			return (value!= null && !value.equals("")) ||userRepository == null ; 
 		}

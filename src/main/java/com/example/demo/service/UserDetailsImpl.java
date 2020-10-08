@@ -21,17 +21,6 @@ public class UserDetailsImpl extends User {
 		this.siteuser = siteuser;
 	}
 
-	public Long getId() {
-		return siteuser.getId();
-	}
-	
-	public String getToken() {
-		return siteuser.getToken();
-	}
-	
-	public String getName() {
-		return siteuser.getName();
-	}
 	
 	public SiteUser getSiteUser() {
 		return siteuser;

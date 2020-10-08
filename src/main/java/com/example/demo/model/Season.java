@@ -1,8 +1,5 @@
 package com.example.demo.model;
 
-
-
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -11,9 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.PrePersist;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,32 +15,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Article {
+public class Season {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank
-	@Size(max=140)
-	private String content;
-	
-	private Date created_at;
+	private int year;
 	
 	@ManyToOne
-	private SiteUser siteuser;
+	private SeasonName seasonName;
 	
-	@OneToMany(mappedBy="article")
-	private List<Heart> hearts;
-	
-	
-	
-	@PrePersist
-	public void onPrePersist() {
-		setCreated_at(new Date());
-	}
-	
-	
-	
+	@OneToMany(mappedBy="season")
+	private List<Dorama> doramas;
 
 }

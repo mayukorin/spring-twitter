@@ -30,7 +30,7 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin,Str
 		try {
 			
 			loginUser = (UserDetailsImpl) (SecurityContextHolder.getContext().getAuthentication()).getPrincipal();
-			return userRepository == null || userRepository.findByName(value) == null||loginUser.getName().equals(value);
+			return userRepository == null || userRepository.findByName(value) == null||loginUser.getUsername().equals(value);
 		} catch(ClassCastException e) {
 			System.out.println("新規会員登録の時");
 			return userRepository == null || userRepository.findByName(value) == null;
