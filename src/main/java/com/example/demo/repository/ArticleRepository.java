@@ -22,5 +22,8 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 	@Query("select a from Article as a where a.channel.id=:#{#id}")
 	List<Article> searchArticleByChannel(Long id);
 	
+	@Query("select count(a) from Article as a where a.id=:#{#id}")
+	Long countArticleById(Long id);
+	
 	
 }

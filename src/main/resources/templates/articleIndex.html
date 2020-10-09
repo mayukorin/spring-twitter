@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Twitterアプリ</title>
+	<th:block th:insert="fragments/base :: head"></th:block>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<th:block th:insert="fragments/base :: login_header"></th:block>
+		</div>
+		<div id="content">
+			<h2>[[${channel.dorama.name}]]</h2>
+			<div th:if="${articles.size() > 0}">
+				<div th:each="article:${articles}" th:object="${article}">
+					<div th:text="*{id}"></div>
+					<div th:text="*{siteuser.name}"></div>
+					<div th:text="*{content}"></div>
+				
+				
+				</div>
+			</div>
+			<a th:href="@{/article_new}">コメントを作成する</a>
+		</div>
+		<div id="footer">
+			<th:block th:insert="fragments/base :: footer"></th:block>
+		</div>
+	</div>
+
+</body>
+</html>

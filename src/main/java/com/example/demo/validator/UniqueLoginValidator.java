@@ -22,7 +22,7 @@ public class UniqueLoginValidator implements ConstraintValidator<UniqueLogin,Str
 	public UniqueLoginValidator(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
+
 	@Override
 	public boolean isValid(String value,ConstraintValidatorContext context) {
 		

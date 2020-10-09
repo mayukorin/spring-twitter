@@ -15,6 +15,8 @@ import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.example.demo.validator.ArticleTarget;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,6 +43,12 @@ public class Article {
 	
 	@ManyToOne
 	private Channel channel;
+	
+	
+	@ArticleTarget
+	private Long targetArticleId;
+	
+	
 	
 	
 	

@@ -9,7 +9,12 @@
 	<th:block th:fragment="article_form">
 		<label for="content">コメント</label><br/>
 		<textarea th:field="*{content}" rows="10" cols="50"></textarea>
-		<div th:errors="*{content}"></div>
+		<div th:errors="*{content}"></div><br/>
+		
+<label for="targetArticleId">返信先コメント番号</label>
+		<input type="number" th:field="*{targetArticleId}">
+		<div th:errors="*{targetArticleId}"></div><br/>
+		
 		<br/><br/>
 		
 	</th:block>
