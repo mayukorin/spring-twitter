@@ -11,11 +11,15 @@
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
 		<div id="content">
+			<div th:if="${deleteError != null}">
+				<div th:text="${deleteError}"></div>
+			</div>
 			<div th:text="${dorama.season.year}+${dorama.season.seasonName.seasonName}"></div><br>
 			<div th:text="${dorama.name}"></div>
 			<div th:if="${channels.size() > 0}">
 				<div th:each="channel:${channels}" th:object="${channel}">
 					<div th:text="${channel.title}"></div>
+					<a th:href="@{/channel_delete{id}(id=*{id})}">チャンネルを削除する</a><br>
 				</div>
 				
 			

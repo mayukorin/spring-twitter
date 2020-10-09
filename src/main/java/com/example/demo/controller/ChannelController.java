@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.HashMap;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class ChannelController {
 	private final ChannelService channelService;
 	
 	@GetMapping("/channelIndex{id}")
-	public String channelIndex(@PathVariable Long id,Model model) {
+	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError) {
 		
 		List<Channel> channels = channelRepository.findChannelByDoramaId(id);
 		model.addAttribute("channels", channels);
@@ -50,6 +50,11 @@ public class ChannelController {
 		model.addAttribute("dorama", doramaRepository.findById(id).get());
 		
 		targetDoramaComponent.setDorama(doramaRepository.findById(id).get());
+		
+		if (deleteError != null && !deleteError.equals("")) {
+			
+			model.addAttribute("deleteError", deleteError);
+		}
 		
 		
 		return "channelIndex";
@@ -68,12 +73,26 @@ public class ChannelController {
 	@PostMapping("/channel_create")
 	public String channelCreate(RedirectAttributes redirectAttributes,@Validated @ModelAttribute("article") Article article,BindingResult resultArticle,@Validated @ModelAttribute("channel") Channel channel,BindingResult resultChannel,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
-		System.out.println("ok");
+		
 		if (resultArticle.hasErrors() || resultChannel.hasErrors()) {
 			return "channelNew";
 		}
 		channelService.insert(channel, userDetail, targetDoramaComponent.getDorama());
 		articleService.insert(article, userDetail,channel);
+		
+		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId();
+	}
+	
+	@GetMapping("/channel_delete{id}")
+	public String channelDelete(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
+		
+		if (channelService.deleteCheck(id,userDetail)) {
+			channelService.delete(id);
+			
+		} else {
+			redirectAttributes.addFlashAttribute("deleteError", "作者以外はチャンネルを削除できません");
+			
+		}
 		
 		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId();
 	}
