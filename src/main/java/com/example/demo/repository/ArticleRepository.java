@@ -26,4 +26,5 @@ public interface ArticleRepository extends JpaRepository<Article,Long> {
 	Long countArticleById(Long id);
 	
 	
+	
 }

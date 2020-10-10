@@ -28,7 +28,7 @@ private final ArticleRepository articleRepository;
 		
 		if (value!=null ) {
 			
-			return articleRepository == null || articleRepository.countArticleById(value) > 0;
+			
 			
 		}
 			

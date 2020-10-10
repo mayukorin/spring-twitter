@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Twitterアプリ</title>
+	<th:block th:insert="fragments/base :: head"></th:block>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<th:block th:insert="fragments/base :: login_header"></th:block>
+		</div>
+		<div id="content">
+			<div th:text="${targetArticle.id}"></div>
+			<div th:text="${targetArticle.siteuser.name}"></div>
+			<div th:text="${targetArticle.content}"></div>
+			<div th:text="${targetArticle.id}"></div><br>
+			<div th:if="${user.id == targetArticle.siteuser.id}">
+						<a th:href="@{/article_delete{id}(id=${targetArticle.id})}">コメントを削除する</a>
+			</div>
+			<hr>
+			<form th:action="@{/reply_create}" method="post" novalidate>
+				<label for="content">内容</label><br>
+				<textarea th:field="${article.content}" rows="10" cols="50"></textarea>
+				<div th:errors="${article.content}"></div><br/>
+				<div th:text="${article.id}"></div><br>
+				<button>投稿</button>
+			</form> 
+			<hr>
+			<div th:each="reply:${targetArticle.replysForMe}" th:object="${reply}">
+				<div th:text="*{ReplyArticle.id}"></div>
+				<div th:text="*{ReplyArticle.siteuser.name}"></div>
+				<div th:text="*{ReplyArticle.content}"></div>
+				<div th:if="${user.id == reply.ReplyArticle.siteuser.id}">
+						<a th:href="@{/article_delete{id}(id=*{ReplyArticle.id})}">コメントを削除する</a>
+				</div>
+				<hr>
+			</div>
+		</div>
+		<div id="footer">
+			<th:block th:insert="fragments/base :: footer"></th:block>
+		</div>
+	</div>
+
+</body>
+</html>

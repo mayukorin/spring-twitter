@@ -14,12 +14,28 @@
 			<h2>[[${channel.dorama.name}]]</h2>
 			<div th:if="${articles.size() > 0}">
 				<div th:each="article:${articles}" th:object="${article}">
+					<div th:if="${article.MyReplys.size() != 0}">
+						<div th:each="myReply:${article.MyReplys}" th:object="${myReply}">
+							<div th:text="*{targetArticle.id}"></div>
+						</div>					
+					</div>
+				
 					<div th:text="*{id}"></div>
 					<div th:text="*{siteuser.name}"></div>
 					<div th:text="*{content}"></div>
+		
+					<div th:if="${article.replysForMe.size() > 0}">
+						<a th:href="@{/reply_index{id}(id=*{id})}">[[${article.replysForMe.size()}]]</a>
+					</div>
+					<div th:if="${user.id == article.siteuser.id}">
+						<a th:href="@{/article_delete{id}(id=*{id})}">コメントを削除する</a>
+					</div>
+					
+					<hr>
 				
 				
 				</div>
+				<hr>
 			</div>
 			<a th:href="@{/article_new}">コメントを作成する</a>
 		</div>

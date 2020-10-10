@@ -41,5 +41,8 @@ public class SiteUser {
 	@OneToMany(mappedBy="siteuser")
 	private List<Heart> hearts;
 	
+	@OneToMany(mappedBy="user")
+	private List<Favorite> favorites;
+	
 	
 }

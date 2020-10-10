@@ -15,6 +15,7 @@ import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.validator.ArticleTarget;
 
 import lombok.Getter;
@@ -44,11 +45,11 @@ public class Article {
 	@ManyToOne
 	private Channel channel;
 	
+	@OneToMany(mappedBy="ReplyArticle")
+	private List<Reply> MyReplys;
 	
-	@ArticleTarget
-	private Long targetArticleId;
-	
-	
+	@OneToMany(mappedBy="targetArticle")
+	private List<Reply> replysForMe;
 	
 	
 	
@@ -56,6 +57,7 @@ public class Article {
 	public void onPrePersist() {
 		setCreated_at(new Date());
 	}
+	
 	
 	
 	

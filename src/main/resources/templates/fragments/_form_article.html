@@ -10,10 +10,13 @@
 		<label for="content">コメント</label><br/>
 		<textarea th:field="*{content}" rows="10" cols="50"></textarea>
 		<div th:errors="*{content}"></div><br/>
+		<div th:text="*{id}"></div><br>
 		
-<label for="targetArticleId">返信先コメント番号</label>
-		<input type="number" th:field="*{targetArticleId}">
-		<div th:errors="*{targetArticleId}"></div><br/>
+		<label for="targetArticleId">返信先コメント番号</label>
+		<input type="number" name="targetArticleId"><br>
+		<div th:if="${target_error != null}">
+			<div th:text="${target_error}"></div>
+		</div>
 		
 		<br/><br/>
 		

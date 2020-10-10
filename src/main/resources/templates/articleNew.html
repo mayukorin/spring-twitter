@@ -13,11 +13,8 @@
 		<div id="content">
 			
 			<h2>コメント投稿</h2>
-			<form th:action="@{/article_create}" th:object="${article}" method="post" novalidate>
-				<th:block th:insert="fragments/_form_article :: article_form">
-					
-				</th:block>
-				
+			<form th:action="@{/article_create}" method="post" novalidate th:object="${article}">
+				<th:block th:insert="fragments/_form_article :: article_form"></th:block>
 				<button>登録</button>
 			</form>
 			
