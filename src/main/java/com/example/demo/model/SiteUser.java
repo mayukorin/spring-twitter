@@ -44,5 +44,7 @@ public class SiteUser {
 	@OneToMany(mappedBy="user")
 	private List<Favorite> favorites;
 	
+	private Boolean admin;
+	
 	
 }

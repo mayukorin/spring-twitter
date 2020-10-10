@@ -16,6 +16,12 @@
 			</div>
 			<div th:text="${dorama.season.year}+${dorama.season.seasonName.seasonName}"></div><br>
 			<div th:text="${dorama.name}"></div>
+			<div th:if="${favoriteFlag == 0}">
+				<a th:href="@{/favorite_create}">お気に入り登録をする</a><br>
+			</div>
+			<div th:if="${favoriteFlag == 1}">
+				<a th:href="@{/favorite_delete}">お気に入り登録を解除する</a><br>
+			</div>
 			<div th:if="${channels.size() > 0}">
 				<div th:each="channel:${channels}" th:object="${channel}">
 					<a th:href="@{/article_index{id}(id=*{id})}">[[${channel.title}]]</a><br>

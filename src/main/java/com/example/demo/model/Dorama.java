@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+
+import com.example.demo.component.LineNotifyComponent;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -38,18 +41,8 @@ public class Dorama {
 	private List<Favorite> favorites;
 	
 	
-	@Scheduled(cron = "0 0 10 * * *", zone = "Asia/Tokyo") 
-	public void executeNotification() {
-		
-		Calendar today = Calendar.getInstance();
-		
-		int StartweekOfDay = startDay.get(Calendar.DAY_OF_WEEK);
-		
-		
-		if (today.after(startDay) && today.before(endDay) && StartweekOfDay == today.get(Calendar.DAY_OF_WEEK)) {
-			System.out.println("ok");
-		}
-	}
+	
+	
 	
 
 }

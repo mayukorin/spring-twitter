@@ -21,6 +21,7 @@ import com.example.demo.model.Channel;
 
 import com.example.demo.repository.ChannelRepository;
 import com.example.demo.repository.DoramaRepository;
+import com.example.demo.repository.FavoriteRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ChannelService;
 import com.example.demo.service.UserDetailsImpl;
@@ -37,19 +38,26 @@ public class ChannelController {
 	
 	private final ChannelRepository channelRepository;
 	private final DoramaRepository doramaRepository;
+	private final FavoriteRepository favoriteRepository;
 	
 	private final ArticleService articleService;
 	private final ChannelService channelService;
 	
 	@GetMapping("/channelIndex{id}")
-	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError) {
+	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
 		List<Channel> channels = channelRepository.findChannelByDoramaId(id);
 		model.addAttribute("channels", channels);
 		
 		model.addAttribute("dorama", doramaRepository.findById(id).get());
 		
+		model.addAttribute("favoriteFlag", favoriteRepository.CountFavoriteByUserAndDorama(userDetail.getSiteUser().getId(),id));
+		System.out.println("id:"+id);
+		System.out.println("userId:"+userDetail.getSiteUser().getId());
+		System.out.println(favoriteRepository.CountFavoriteByUserAndDorama(id,userDetail.getSiteUser().getId()));
+		
 		targetDoramaComponent.setDorama(doramaRepository.findById(id).get());
+		
 		
 		if (deleteError != null && !deleteError.equals("")) {
 			

@@ -15,6 +15,7 @@
 			<form th:action="@{/user_register}" th:object="${user}" method="post" novalidate>
 				<th:block th:insert="fragments/_form_user :: user_form">
 				</th:block>
+				<label th:for="admin">管理者として登録する</label><br><br>
 				<button>登録</button>
 			
 			</form>

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.Calendar;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Favorite {
+public class Notify {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -21,9 +23,6 @@ public class Favorite {
 	@ManyToOne
 	private Dorama dorama;
 	
-	@ManyToOne
-	private SiteUser user;
-	
-	
+	private Calendar created_at;
 
 }
