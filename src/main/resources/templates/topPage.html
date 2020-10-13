@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Twitterアプリ</title>
-	<th:block th:insert="fragments/base :: head"></th:block>
+<meta charset="UTF-8">
+<title>Twitterアプリ</title>
+<th:block th:insert="fragments/base :: head"></th:block>
 </head>
 <body>
 	<div id="wrapper">
@@ -13,22 +13,17 @@
 		<div id="content">
 			<div th:if="${seasons.size()>0}">
 				<div th:each="season:${seasons}" th:object="${season}">
-					<div th:text="${season.year}+${season.seasonName.seasonName}"></div><br/>
-					<div th:if = "${season.doramas.size() > 0}">
-					
+					<div th:text="${season.year}+${season.seasonName.seasonName}"></div>
+					<br />
+					<div th:if="${season.doramas.size() > 0}">
+
 						<div th:each="dorama:${season.doramas}" th:object="${dorama}">
-						
+
 							<a th:href="@{/channelIndex{id}(id=*{id})}">[[*{name}]]</a><br>
-						
+
 						</div>
 						<br>
-					
-					
-					
-					
 					</div>
-				
-				
 				</div>
 			</div>
 		</div>

@@ -59,8 +59,6 @@ public class SiteUserController {
 		for (Article art:articles) {
 			articleLike.put(art, heartRepository.countByArticle(art));
 			
-			
-			
 		}
 		
 		model.addAttribute("articleLike", articleLike);

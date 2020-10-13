@@ -24,6 +24,7 @@ import com.example.demo.repository.DoramaRepository;
 import com.example.demo.repository.FavoriteRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ChannelService;
+import com.example.demo.service.SessionService;
 import com.example.demo.service.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -42,27 +43,17 @@ public class ChannelController {
 	
 	private final ArticleService articleService;
 	private final ChannelService channelService;
+	private final SessionService sessionService;
 	
 	@GetMapping("/channelIndex{id}")
 	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
-		List<Channel> channels = channelRepository.findChannelByDoramaId(id);
-		model.addAttribute("channels", channels);
+		sessionService.setTargetDoramaComponent(id);
 		
+		model.addAttribute("channels", channelRepository.findChannelByDoramaId(id));
 		model.addAttribute("dorama", doramaRepository.findById(id).get());
 		
 		model.addAttribute("favoriteFlag", favoriteRepository.CountFavoriteByUserAndDorama(userDetail.getSiteUser().getId(),id));
-		System.out.println("id:"+id);
-		System.out.println("userId:"+userDetail.getSiteUser().getId());
-		System.out.println(favoriteRepository.CountFavoriteByUserAndDorama(id,userDetail.getSiteUser().getId()));
-		
-		targetDoramaComponent.setDorama(doramaRepository.findById(id).get());
-		
-		
-		if (deleteError != null && !deleteError.equals("")) {
-			
-			model.addAttribute("deleteError", deleteError);
-		}
 		
 		
 		return "channelIndex";
@@ -94,14 +85,8 @@ public class ChannelController {
 	@GetMapping("/channel_delete{id}")
 	public String channelDelete(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
 		
-		if (channelService.deleteCheck(id,userDetail)) {
-			channelService.delete(id);
-			
-		} else {
-			redirectAttributes.addFlashAttribute("deleteError", "作者以外はチャンネルを削除できません");
-			
-		}
 		
+		channelService.delete(id);
 		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId();
 	}
 	
