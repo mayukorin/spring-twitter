@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.component.ChannelComponent;
+import com.example.demo.component.DoramaComponent;
 import com.example.demo.model.Article;
 import com.example.demo.model.Reply;
 import com.example.demo.repository.ArticleRepository;
@@ -20,6 +21,7 @@ import com.example.demo.repository.ChannelRepository;
 import com.example.demo.repository.ReplyRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
+import com.example.demo.service.SessionService;
 import com.example.demo.service.UserDetailsImpl;
 import com.example.demo.validator.ArticleTargetIdValidator;
 
@@ -31,14 +33,19 @@ public class ArticleController {
 	
 	
 	private final ArticleService articleService;
-	private final ChannelRepository channelRepository;
+	
 	private final ArticleRepository articleRepository;
-	private final ReplyRepository replyRepository;
+	
 	private final ReplyService replyService;
+	private final SessionService sessionService;
 	private final ArticleTargetIdValidator articleTargetIdValidator;
 	
 	@Autowired
 	ChannelComponent channelComponent;
+	
+	@Autowired
+	DoramaComponent targetDoramaComponent;
+	
 
 	
 	@GetMapping("/article_new")
@@ -60,7 +67,7 @@ public class ArticleController {
 			}
 			return "articleNew";
 		}
-		System.out.println(article.getId());
+		
 		articleService.insert(article, userDetail, channelComponent.getChannel());
 		replyService.insert(article, id);
 		return "redirect:/article_index"+channelComponent.getChannel().getId();
@@ -74,13 +81,11 @@ public class ArticleController {
 	}
 	
 	@GetMapping("/article_index{id}")
-	public String articleIndex(@PathVariable Long id,Model model,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	public String articleIndex(@PathVariable Long id,Model model) {
 		
-		channelComponent.setChannel(channelRepository.findById(id).get());
-		
+		sessionService.setTragetChannelComponent(id);
 		model.addAttribute("channel", channelComponent.getChannel());
 		model.addAttribute("articles", articleRepository.searchArticleByChannel(id));
-		model.addAttribute("user", userDetail.getSiteUser());
 		
 		return "articleIndex";
 		

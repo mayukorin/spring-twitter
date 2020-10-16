@@ -12,6 +12,7 @@
 		</div>
 		<div id="content">
 			<h2>[[${channel.dorama.name}]]</h2>
+			[[${channel.title}]]
 			<div th:if="${articles.size() > 0}">
 				<div th:each="article:${articles}" th:object="${article}">
 					<div th:if="${article.MyReplys.size() != 0}">
@@ -27,7 +28,7 @@
 					<div th:if="${article.replysForMe.size() > 0}">
 						<a th:href="@{/reply_index{id}(id=*{id})}">[[${article.replysForMe.size()}]]</a>
 					</div>
-					<div th:if="${user.id == article.siteuser.id}">
+					<div th:if="${#authentication.principal.getSiteUser().getId() == article.siteuser.id}">
 						<a th:href="@{/article_delete{id}(id=*{id})}">コメントを削除する</a>
 					</div>
 					

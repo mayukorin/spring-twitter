@@ -15,7 +15,7 @@
 			<div th:text="${targetArticle.siteuser.name}"></div>
 			<div th:text="${targetArticle.content}"></div>
 			<div th:text="${targetArticle.id}"></div><br>
-			<div th:if="${user.id == targetArticle.siteuser.id}">
+			<div th:if="${#authentication.principal.getSiteUser().getId() == targetArticle.siteuser.id}">
 						<a th:href="@{/article_delete{id}(id=${targetArticle.id})}">コメントを削除する</a>
 			</div>
 			<hr>
@@ -31,7 +31,7 @@
 				<div th:text="*{ReplyArticle.id}"></div>
 				<div th:text="*{ReplyArticle.siteuser.name}"></div>
 				<div th:text="*{ReplyArticle.content}"></div>
-				<div th:if="${user.id == reply.ReplyArticle.siteuser.id}">
+				<div th:if="${#authentication.principal.getSiteUser().getId() == reply.ReplyArticle.siteuser.id}">
 						<a th:href="@{/article_delete{id}(id=*{ReplyArticle.id})}">コメントを削除する</a>
 				</div>
 				<hr>

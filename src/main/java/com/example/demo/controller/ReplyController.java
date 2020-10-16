@@ -18,6 +18,7 @@ import com.example.demo.model.Article;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
+import com.example.demo.service.SessionService;
 import com.example.demo.service.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -36,14 +37,16 @@ public class ReplyController {
 	final ArticleRepository articleRepository;
 	final ArticleService articleService;
 	final ReplyService replyService;
+	final SessionService sessionService;
+	
 	@GetMapping("/reply_index{id}")
-	public String replyIndex(@PathVariable Long id,Model model,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	public String replyIndex(@PathVariable Long id,Model model,@AuthenticationPrincipal UserDetailsImpl userDetail,@ModelAttribute Article article) {
 		
-		model.addAttribute("targetArticle", articleRepository.findById(id).get());
-		model.addAttribute("article", new Article());
-		model.addAttribute("user", userDetail.getSiteUser());
 		
-		articleComponent.setArticle(articleRepository.findById(id).get());
+		
+		sessionService.setArticleComponent(id);
+		model.addAttribute("targetArticle", articleComponent.getArticle());
+		
 		
 		return "replyIndex";
 		
@@ -57,8 +60,7 @@ public class ReplyController {
 			return "/replyIndex";
 			
 		} 
-		System.out.println("content:"+article.getContent());
-		System.out.println(article.getId());
+		
 		articleService.insert(article, userDetail, channelComponent.getChannel());
 		replyService.insert(article, articleComponent.getArticle().getId());
 		return "redirect:/reply_index"+articleComponent.getArticle().getId();

@@ -22,7 +22,7 @@ import com.example.demo.model.SiteUser;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.HeartRepository;
 import com.example.demo.repository.UserRepository;
-
+import com.example.demo.service.SiteUserService;
 import com.example.demo.service.UserDetailsImpl;
 
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class SiteUserController {
 	
 	
 	private final UserRepository userRepository;
-	
+	private final SiteUserService siteUserService;
 	private final BCryptPasswordEncoder passwordEncoder;
 	
 	private final ArticleRepository articleRepository;
@@ -80,9 +80,7 @@ public class SiteUserController {
 			return "register";
 		}
 		
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		
-		userRepository.save(user);
+		siteUserService.insert(user);
 		
 		return "redirect:/login?register";
 		
@@ -104,9 +102,8 @@ public class SiteUserController {
 			return "userEdit";
 		}
 		
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		
-		userRepository.save(user);
+		siteUserService.update(user);
+	
 		
 		return "redirect:/logout";
 		
