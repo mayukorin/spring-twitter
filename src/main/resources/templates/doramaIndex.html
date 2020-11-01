@@ -56,6 +56,7 @@
 					</tbody>
 				</table>
 				<br>
+				<p>お気に入り登録者数の推移</p>
 				<ul class="nav nav-tabs">
 					<li class="nav-item" th:each="monthData,elementStat:${couontDatas}">
 						<a th:href="@{#graph{num}(num=${elementStat.count})}"

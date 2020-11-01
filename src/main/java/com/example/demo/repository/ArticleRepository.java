@@ -14,7 +14,7 @@ import com.example.demo.model.Article;
 public interface ArticleRepository extends JpaRepository<Article,Long> {
 	
 
-	@Query("select a from Article a where a.siteuser.id = :#{#id} and a.deleteFlag = 0")
+	@Query("select a from Article a where a.siteuser.id = :#{#id} and a.deleteFlag = 0 order by a.created_at desc")
 	List<Article> serachArticleBySiteuser(Long id);
 	
 	@Query("select a from Article a where a.id = :#{#id}")

@@ -109,7 +109,7 @@ public class DoramaController {
 					return "doramaEdit";
 		} 
 		
-		System.out.println(fromFlag);
+		
 		doramaService.update(dorama, start, end,userDetail.getSiteUser());
 		
 		if (fromFlag == 0) {

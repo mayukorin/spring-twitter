@@ -31,7 +31,7 @@ public interface DoramaRepository extends JpaRepository<Dorama,Long> {
 	@Query("select d from Dorama d,Favorite f where f.user.id = :#{#id} and d.id = f.dorama.id")
 	List<Dorama> collectDoramaFavoriteByUser(Long id);
 	
-	@Query("select d from Dorama d where d.season.id = :#{#id}")
+	@Query("select d from Dorama d where d.season.id = :#{#id} order by d.startDay desc")
 	List<Dorama> collectDoramaBySeason(Long id);
 	
 	@Query(value="select * from Dorama as d where d.name like %:#{#keyword}%",nativeQuery=true)
