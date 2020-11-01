@@ -21,7 +21,7 @@ public class UserDetailsImpl extends User {
 		this.siteuser = siteuser;
 	}
 
-	
+
 	public SiteUser getSiteUser() {
 		return siteuser;
 	}
@@ -36,9 +36,9 @@ public class UserDetailsImpl extends User {
 	public String getPassword() {
 		return siteuser.getPassword();
 	}
-	
+
 	public void setPassword(String password) {
-		
+
 		this.siteuser.setPassword(password);
 	}
 	@Override

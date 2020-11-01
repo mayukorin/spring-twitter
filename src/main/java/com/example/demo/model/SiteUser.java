@@ -10,8 +10,10 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
+import com.example.demo.validator.NotCreateBlank;
 import com.example.demo.validator.UniqueLogin;
-import com.example.demo.validator.UserPassword;
+
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,8 @@ import lombok.Setter;
 @Setter
 @Entity
 public class SiteUser {
+	
+	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,7 +34,7 @@ public class SiteUser {
 	@UniqueLogin
 	private String name;
 	
-	@NotBlank
+	@NotCreateBlank
 	private String password;
 	
 	private String token;
@@ -38,11 +42,13 @@ public class SiteUser {
 	@OneToMany(mappedBy="siteuser")
 	private List<Article> articles;
 	
-	@OneToMany(mappedBy="siteuser")
-	private List<Heart> hearts;
+	
 	
 	@OneToMany(mappedBy="user")
 	private List<Favorite> favorites;
+	
+	@OneToMany(mappedBy="creater")
+	private List<Dorama> doramas;
 	
 	private Boolean admin;
 	

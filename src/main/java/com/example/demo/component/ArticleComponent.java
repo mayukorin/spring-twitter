@@ -5,7 +5,6 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.model.Article;
-import com.example.demo.model.Channel;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -12,10 +12,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy=UniqueLoginValidator.class)
 public @interface UserPassword {
-	
+
 	String message() default "パスワードを入力してください";
 	Class<?>[] groups() default{};
 	Class<? extends Payload>[] payload() default{};
-	
+
 
 }

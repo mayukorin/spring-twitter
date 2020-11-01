@@ -1,38 +1,114 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
-	<title>Twitterアプリ</title>
-	<th:block th:insert="fragments/base :: head"></th:block>
+<meta charset="UTF-8">
+<title>Twitterアプリ</title>
+<th:block th:insert="fragments/base :: head"></th:block>
 </head>
 <body>
 	<div id="wrapper">
 		<div id="header">
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
-		<div id="content">
-			<div th:text="${targetArticle.id}"></div>
-			<div th:text="${targetArticle.siteuser.name}"></div>
-			<div th:text="${targetArticle.content}"></div>
-			<div th:text="${targetArticle.id}"></div><br>
-			<div th:if="${#authentication.principal.getSiteUser().getId() == targetArticle.siteuser.id}">
-						<a th:href="@{/article_delete{id}(id=${targetArticle.id})}">コメントを削除する</a>
+		<div id="cont">
+			<div th:if="${param.createSuccess}">
+				<div class="alert alert-success" role="alert">コメントを作成しました</div>
+			</div>
+			<div th:if="${param.deleteSuccess}">
+				<div class="alert alert-success" role="alert">コメントを削除しました</div>
+			</div>
+			<div>
+				<a th:href="@{/topPage}">TopPage</a>><a
+					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
+					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDoramaStartDay().getTime(),'yyyy-MM')}"></span></a>><a
+					th:href="@{/channelIndex{id}(id=${sessionService.getTargetDoramaComponent().getDorama().id})}"><span
+					th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></span></a>><a
+					th:href="@{/article_index{id}(id=${sessionService.getChannelComponent().getChannel().id})}"><span
+					th:text="${sessionService.getChannelComponent().getChannel().title}"></span></a>>コメント番号<span
+					th:text="${sessionService.getArticleComponent().getArticle().IdInChannel}"></span>
+			</div>
+			<br>
+			<hr>
+			<div id="commentUser"
+				th:if="${sessionService.getArticleComponent().getArticle().siteuser != null}">
+				[[${sessionService.getArticleComponent().getArticle().IdInChannel}]].
+				[[${sessionService.getArticleComponent().getArticle().siteuser.name}]]
+				<span
+					th:text="${#dates.format(sessionService.getArticleComponent().getArticle().created_at,'yyyy/MM/dd HH:mm')}"></span>
+			</div>
+			<div id="commentUser"
+				th:unless="${sessionService.getArticleComponent().getArticle().siteuser != null}">
+				[[${sessionService.getArticleComponent().getArticle().IdInChannel}]].
+				<span
+					th:text="${#dates.format(sessionService.getArticleComponent().getArticle().created_at,'yyyy/MM/dd HH:mm')}"></span>
+			</div>
+			<br>
+			<div
+				th:if="${sessionService.getArticleComponent().getArticle().MyReplys.size() != 0}">
+				<div
+					th:each="myReply:${sessionService.getArticleComponent().getArticle().MyReplys}"
+					th:object="${myReply}">
+					<a th:href="@{/reply_index{id}(id=*{targetArticle.id})}"><button
+							type="button" class="btn btn-light">
+							>><span th:text="*{targetArticle.IdInChannel}"></span>
+						</button></a>
+				</div>
+				<br>
+			</div>
+			<div
+				th:text="${sessionService.getArticleComponent().getArticle().content}"></div>
+			<br>
+			<div
+				th:if="${sessionService.getArticleComponent().getArticle().siteuser != null && #authentication.principal.getSiteUser().getId() == sessionService.getArticleComponent().getArticle().siteuser.id}">
+				<br> <a
+					th:href="@{/article_delete/{id}/{fromMyChannel}(id=${sessionService.getArticleComponent().getArticle().id},fromMyChannel = 0)}">コメントを削除する</a>
 			</div>
 			<hr>
-			<form th:action="@{/reply_create}" method="post" novalidate>
-				<label for="content">内容</label><br>
-				<textarea th:field="${article.content}" rows="10" cols="50"></textarea>
-				<div th:errors="${article.content}"></div><br/>
-				<div th:text="${article.id}"></div><br>
-				<button>投稿</button>
-			</form> 
+			<form th:action="@{/reply_create}" method="post" novalidate
+				th:object="${article}" class="needs-validation">
+
+				<div class="form-group">
+					<label for="comment">コメント</label>
+					<textarea th:field="*{content}" class="form-control"
+						th:errorclass="is-invalid" rows="3"></textarea>
+					<div class="invalid-feedback" th:errors="*{content}"></div>
+				</div>
+				<button type="submit" class="btn btn-primary">投稿</button>
+			</form>
+			<br>
 			<hr>
-			<div th:each="reply:${targetArticle.replysForMe}" th:object="${reply}">
-				<div th:text="*{ReplyArticle.id}"></div>
-				<div th:text="*{ReplyArticle.siteuser.name}"></div>
+			<div
+				th:each="reply:${sessionService.getArticleComponent().getArticle().replysForMe}"
+				th:object="${reply}">
+				<div id="commentUser">
+					[[*{ReplyArticle.IdInChannel}]]. [[*{ReplyArticle.siteuser.name}]]
+					<span
+						th:text="${#dates.format(reply.ReplyArticle.created_at,'yyyy/MM/dd HH:mm')}"></span>
+				</div>
+				<br>
+				<div th:if="*{ReplyArticle.MyReplys.size() != 0}">
+					<div th:each="myReply:*{ReplyArticle.MyReplys}"
+						th:object="${myReply}">
+						<a th:href="@{/reply_index{id}(id=*{targetArticle.id})}"><button
+								type="button" class="btn btn-light">
+								>><span th:text="*{targetArticle.IdInChannel}"></span>
+							</button></a>
+					</div>
+					<br>
+				</div>
 				<div th:text="*{ReplyArticle.content}"></div>
-				<div th:if="${#authentication.principal.getSiteUser().getId() == reply.ReplyArticle.siteuser.id}">
-						<a th:href="@{/article_delete{id}(id=*{ReplyArticle.id})}">コメントを削除する</a>
+				<br>
+				<div th:if="*{ReplyArticle.replysForMe.size() > 0}">
+					<a th:href="@{/reply_index{id}(id=*{ReplyArticle.id})}"><button
+							type="button" class="btn btn-light">
+							<span th:text="*{ReplyArticle.replysForMe.size()}"></span>件の返信
+						</button></a>
+				</div>
+				<br>
+				<div
+					th:if="${reply.ReplyArticle.siteuser != null && #authentication.principal.getSiteUser().getId() == reply.ReplyArticle.siteuser.id}">
+					<a
+						th:href="@{/article_delete/{id}/{fromMyChannel}(id=*{ReplyArticle.id},fromMyChannel = 2)}">コメントを削除する</a>
 				</div>
 				<hr>
 			</div>

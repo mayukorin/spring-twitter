@@ -15,8 +15,6 @@ import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.example.demo.repository.ArticleRepository;
-import com.example.demo.validator.ArticleTarget;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +28,10 @@ public class Article {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	private Long IdInChannel;
+	
+	private Long deleteFlag;
+	
 	@NotBlank
 	@Size(max=140)
 	private String content;
@@ -39,8 +41,6 @@ public class Article {
 	@ManyToOne
 	private SiteUser siteuser;
 	
-	@OneToMany(mappedBy="article")
-	private List<Heart> hearts;
 	
 	@ManyToOne
 	private Channel channel;

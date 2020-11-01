@@ -3,6 +3,8 @@ package com.example.demo.controller;
 
 
 
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -16,14 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.component.DoramaComponent;
+
 import com.example.demo.model.Article;
 import com.example.demo.model.Channel;
 
-import com.example.demo.repository.ChannelRepository;
-import com.example.demo.repository.DoramaRepository;
-import com.example.demo.repository.FavoriteRepository;
+
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ChannelService;
+import com.example.demo.service.FavoriteService;
 import com.example.demo.service.SessionService;
 import com.example.demo.service.UserDetailsImpl;
 
@@ -37,23 +39,27 @@ public class ChannelController {
 	@Autowired
 	DoramaComponent targetDoramaComponent;
 	
-	private final ChannelRepository channelRepository;
-	private final DoramaRepository doramaRepository;
-	private final FavoriteRepository favoriteRepository;
+	
+	
 	
 	private final ArticleService articleService;
 	private final ChannelService channelService;
 	private final SessionService sessionService;
+	private final FavoriteService favoriteService;
 	
 	@GetMapping("/channelIndex{id}")
 	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
 		sessionService.setTargetDoramaComponent(id);
+		sessionService.setNullChannelComponent();
 		
-		model.addAttribute("channels", channelRepository.findChannelByDoramaId(id));
-		model.addAttribute("dorama", doramaRepository.findById(id).get());
 		
-		model.addAttribute("favoriteFlag", favoriteRepository.CountFavoriteByUserAndDorama(userDetail.getSiteUser().getId(),id));
+		model.addAttribute("channels",channelService.getChannelsByDoramaId(id));
+		model.addAttribute("sessionService", sessionService);
+		
+		
+		model.addAttribute("favoriteFlag", favoriteService.CountFavoriteByUserAndDorama(userDetail.getSiteUser().getId(),id));
+		
 		
 		
 		return "channelIndex";
@@ -61,33 +67,47 @@ public class ChannelController {
 	}
 	
 	@GetMapping("/channel_new")
-	public String channelNew(Model model, @ModelAttribute Article article) {
+	public String channelNew(Model model, @ModelAttribute Article article,@ModelAttribute Channel channel) {
 		
 		
-		model.addAttribute("channel",new Channel());
+		
+		model.addAttribute("sessionService", sessionService);
 		
 		return "channelNew";
 	}
 	
 	@PostMapping("/channel_create")
-	public String channelCreate(RedirectAttributes redirectAttributes,@Validated @ModelAttribute("article") Article article,BindingResult resultArticle,@Validated @ModelAttribute("channel") Channel channel,BindingResult resultChannel,@AuthenticationPrincipal UserDetailsImpl userDetail) {
+	public String channelCreate(Model model,RedirectAttributes redirectAttributes,@Validated @ModelAttribute("article") Article article,BindingResult resultArticle,@Validated @ModelAttribute("channel") Channel channel,BindingResult resultChannel,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
 		
 		if (resultArticle.hasErrors() || resultChannel.hasErrors()) {
+			model.addAttribute("sessionService", sessionService);
 			return "channelNew";
 		}
-		channelService.insert(channel, userDetail, targetDoramaComponent.getDorama());
+		channelService.insert(channel, userDetail,sessionService.getTargetDoramaComponent().getDorama());
 		articleService.insert(article, userDetail,channel);
 		
-		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId();
+		return "redirect:/channelIndex"+sessionService.getTargetDoramaComponent().getDorama().getId()+"?createSuccess";
 	}
 	
-	@GetMapping("/channel_delete{id}")
-	public String channelDelete(@PathVariable Long id,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
+	@GetMapping("/channel_delete/{id}/{fromMyChannel}")
+	public String channelDelete(@PathVariable Long id,@PathVariable Long fromMyChannel,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
 		
 		
 		channelService.delete(id);
-		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId();
+		
+		if (fromMyChannel == 1) {
+			return "redirect:/myChannel?channelDelete";
+		}
+		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId()+"?channelDelete";
+	}
+	
+	@GetMapping("/myChannel")
+	public String MyChannel(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
+		
+		model.addAttribute("myChannels", channelService.findMyCreateChannel(userDetail.getSiteUser().getId()));
+		
+		return "MyChannel";
 	}
 	
 	

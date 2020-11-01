@@ -15,10 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.component.ChannelComponent;
 import com.example.demo.component.DoramaComponent;
 import com.example.demo.model.Article;
-import com.example.demo.model.Reply;
-import com.example.demo.repository.ArticleRepository;
-import com.example.demo.repository.ChannelRepository;
-import com.example.demo.repository.ReplyRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.service.SessionService;
@@ -34,7 +30,7 @@ public class ArticleController {
 	
 	private final ArticleService articleService;
 	
-	private final ArticleRepository articleRepository;
+	
 	
 	private final ReplyService replyService;
 	private final SessionService sessionService;
@@ -49,8 +45,13 @@ public class ArticleController {
 
 	
 	@GetMapping("/article_new")
-	public String articleNew(@ModelAttribute("article") Article article) {
+	public String articleNew(@ModelAttribute("article") Article article,Model model) {
 		
+		
+		
+		
+		model.addAttribute("channel", sessionService.getChannelComponent().getChannel());
+		model.addAttribute("sessionService", sessionService);
 		return "articleNew";
 	}
 	
@@ -63,34 +64,55 @@ public class ArticleController {
 		if (result.hasErrors() || !articleTargetIdValidator.articleTargetIdCheck(id)) {
 			
 			if (!articleTargetIdValidator.articleTargetIdCheck(id)) {
+				
 				model.addAttribute("target_error", "その番号のメッセージは存在しません");
+				
 			}
+			model.addAttribute("sessionService", sessionService);
+			model.addAttribute("targetAt", id);
 			return "articleNew";
 		}
 		
 		articleService.insert(article, userDetail, channelComponent.getChannel());
 		replyService.insert(article, id);
-		return "redirect:/article_index"+channelComponent.getChannel().getId();
+		return "redirect:/article_index"+channelComponent.getChannel().getId()+"?createSuccess";
 	}
 
 	
-	@GetMapping("/article_delete{id}")
-	public String articleDelter(@PathVariable Long id) {
+	@GetMapping("/article_delete/{id}/{fromMyChannel}")
+	public String articleDelter(@PathVariable Long id,@PathVariable Long fromMyChannel) {
+		
 		articleService.delete(id);
-		return "redirect:/article_index"+channelComponent.getChannel().getId();
+		
+		if (fromMyChannel == 0) {
+			return "redirect:/article_index"+channelComponent.getChannel().getId()+"?delete";
+		} else if (fromMyChannel == 2) {
+			return "redirect:/reply_index"+sessionService.getArticleComponent().getArticle().getId()+"?deleteSuccess";
+		}
+		
+		return "redirect:/myArticle?delete";
 	}
 	
 	@GetMapping("/article_index{id}")
 	public String articleIndex(@PathVariable Long id,Model model) {
 		
 		sessionService.setTragetChannelComponent(id);
-		model.addAttribute("channel", channelComponent.getChannel());
-		model.addAttribute("articles", articleRepository.searchArticleByChannel(id));
+		model.addAttribute("sessionService", sessionService);
+		model.addAttribute("articles", articleService.collectArticlesByChannelId(id));
 		
 		return "articleIndex";
 		
 	
 		
+	}
+	
+	@GetMapping("/myArticle")
+	public String myArticle(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
+		
+		model.addAttribute("myArticles",articleService.collectMyArticle(userDetail.getSiteUser().getId()));
+		
+		
+		return "myArticle";
 	}
 
 }

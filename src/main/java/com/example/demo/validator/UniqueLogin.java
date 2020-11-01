@@ -12,10 +12,10 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy=UniqueLoginValidator.class)
 public @interface UniqueLogin {
-	
+
 	String message() default "このユーザ名は既に登録されています";
 	Class<?>[] groups() default{};
 	Class<? extends Payload>[] payload() default{};
-	
+
 
 }

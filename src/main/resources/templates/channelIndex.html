@@ -10,29 +10,68 @@
 		<div id="header">
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
-		<div id="content">
-			<div
-				th:text="${dorama.season.year}+${dorama.season.seasonName.seasonName}"></div>
+		<div id="cont">
+			<div th:if="${param.createSuccess}">
+				<div class="alert alert-success" role="alert">新しいチャンネルを作成しました</div>
+			</div>
+			<div th:if="${param.channelDelete}">
+
+				<div class="alert alert-success" role="alert">チャンネルの削除が完了しました</div>
+			</div>
+			<div>
+				<a th:href="@{/topPage}">TopPage</a>><a
+					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
+					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDoramaStartDay().getTime(),'yyyy-MM')}"></span></a>><span
+					th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></span>
+			</div>
 			<br>
-			<div th:text="${dorama.name}"></div>
+
+			<h1
+				th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></h1>
+			<br>
+
 			<div th:if="${favoriteFlag == 0}">
-				<a th:href="@{/favorite_create}">お気に入り登録をする</a><br>
+				<a th:href="@{/favorite_create}"><button type="button"
+						class="btn btn-outline-success">お気に入りにする</button></a><br>
 			</div>
 			<div th:if="${favoriteFlag == 1}">
-				<a th:href="@{/favorite_delete}">お気に入り登録を解除する</a><br>
+				<a th:href="@{/favorite_delete}"><button type="button"
+						class="btn btn-outline-success">お気に入りを解除する</button></a><br>
 			</div>
+			<br>
 			<div th:if="${channels.size() > 0}">
-				<div th:each="channel:${channels}" th:object="${channel}">
-					<a th:href="@{/article_index{id}(id=*{id})}">[[${channel.title}]]</a><br>
-					<div th:if="${#authentication.principal.getSiteUser().getId() == channel.creater.id}">
-						<a th:href="@{/channel_delete{id}(id=*{id})}">チャンネルを削除する</a><br>
-					</div>
-				</div>
 
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th scope="col">チャンネル名</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="channel:${channels}" th:object="${channel}">
+							<td><div th:text="*{title}"></div></td>
+							<td><a th:href="@{/article_index{id}(id=*{id})}">コメントを見る</a></td>
+							<td>
+								<div
+									th:if="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">
+									<a
+										th:href="@{/channel_delete/{id}/{fromMyChannel}(id=*{id},fromMyChannel=0)}">チャンネルを削除する</a>
+								</div>
+								<div
+									th:unless="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">
+									ー</div>
+							</td>
+						</tr>
+
+
+					</tbody>
+				</table>
 			</div>
-			<p>
-				<a th:href="@{/channel_new}">新しいチャンネルを作成する</a>
-			</p>
+
+			<a th:href="@{/channel_new}">新しいチャンネルを作成する</a><br>
+
 
 		</div>
 		<div id="footer">

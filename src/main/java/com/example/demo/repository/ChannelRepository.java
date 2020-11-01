@@ -12,5 +12,7 @@ public interface ChannelRepository extends JpaRepository<Channel,Long> {
 	@Query("select c from Channel as c where c.dorama.id=:#{#id}")
 	List<Channel> findChannelByDoramaId(Long id);
 	
+	@Query("select c from Channel as c where c.creater.id=:#{#id}")
+	List<Channel> findChannelByCreater(Long id);
 	
 }

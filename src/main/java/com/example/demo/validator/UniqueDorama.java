@@ -10,11 +10,11 @@ import javax.validation.Payload;
 
 @Target({ElementType.METHOD,ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy=ArticleTargetValidator.class)
-public @interface ArticleTarget {
-	
-	String message() default "その番号のコメントはありません";
+@Constraint(validatedBy=UniqueDoramaValidator.class)
+public @interface UniqueDorama {
+
+
+	String message() default "そのドラマは既に登録されています";
 	Class<?>[] groups() default{};
 	Class<? extends Payload>[] payload() default{};
-
 }

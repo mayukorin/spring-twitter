@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.component.ArticleComponent;
 import com.example.demo.component.ChannelComponent;
 import com.example.demo.model.Article;
-import com.example.demo.repository.ArticleRepository;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
 import com.example.demo.service.SessionService;
@@ -34,7 +32,6 @@ public class ReplyController {
 	ArticleComponent articleComponent;
 	
 	
-	final ArticleRepository articleRepository;
 	final ArticleService articleService;
 	final ReplyService replyService;
 	final SessionService sessionService;
@@ -45,7 +42,7 @@ public class ReplyController {
 		
 		
 		sessionService.setArticleComponent(id);
-		model.addAttribute("targetArticle", articleComponent.getArticle());
+		model.addAttribute("sessionService", sessionService);
 		
 		
 		return "replyIndex";
@@ -56,14 +53,15 @@ public class ReplyController {
 	public String replyCreate(@Validated @ModelAttribute("article") Article article,BindingResult result,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
 		
 		if (result.hasErrors()) {
-			model.addAttribute("targetArticle", articleComponent.getArticle());
+			
+			model.addAttribute("sessionService", sessionService);
 			return "/replyIndex";
 			
 		} 
 		
-		articleService.insert(article, userDetail, channelComponent.getChannel());
-		replyService.insert(article, articleComponent.getArticle().getId());
-		return "redirect:/reply_index"+articleComponent.getArticle().getId();
+		articleService.insert(article, userDetail,sessionService.getChannelComponent().getChannel());
+		replyService.insert(article, sessionService.getArticleComponent().getArticle().getIdInChannel());
+		return "redirect:/reply_index"+sessionService.getArticleComponent().getArticle().getId()+"?createSuccess";
 	}
 
 }
