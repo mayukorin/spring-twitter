@@ -9,8 +9,8 @@ import com.example.demo.model.Channel;
 
 public interface ChannelRepository extends JpaRepository<Channel,Long> {
 	
-	@Query("select c from Channel as c where c.dorama.id=:#{#id}")
-	List<Channel> findChannelByDoramaId(Long id);
+	@Query("select c from Channel as c where c.drama.id=:#{#id}")
+	List<Channel> findChannelByDramaId(Long id);
 	
 	@Query("select c from Channel as c where c.creater.id=:#{#id}")
 	List<Channel> findChannelByCreater(Long id);

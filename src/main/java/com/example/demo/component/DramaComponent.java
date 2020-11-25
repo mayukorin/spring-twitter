@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import org.springframework.context.annotation.ScopedProxyMode;
 
-import com.example.demo.model.Dorama;
+import com.example.demo.model.Drama;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +17,9 @@ import lombok.Setter;
 @SuppressWarnings("serial")
 @Getter
 @Setter
-public class DoramaComponent implements Serializable {
+public class DramaComponent implements Serializable {
 	
-	private Dorama dorama;
+	private Drama drama;
 	
 
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.component.ArticleComponent;
 import com.example.demo.component.ChannelComponent;
-import com.example.demo.component.DoramaComponent;
+import com.example.demo.component.DramaComponent;
 import com.example.demo.component.SeasonComponent;
 import com.example.demo.model.Article;
 import com.example.demo.model.Channel;
@@ -13,7 +13,7 @@ import com.example.demo.model.Channel;
 import com.example.demo.model.Season;
 import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.ChannelRepository;
-import com.example.demo.repository.DoramaRepository;
+import com.example.demo.repository.DramaRepository;
 import com.example.demo.repository.SeasonRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class SessionService {
 
 
 
-	private final DoramaRepository doramaRepository;
+	private final DramaRepository dramaRepository;
 	private final ChannelRepository channelRepository;
 	private final ArticleRepository articleRepository;
 	private final SeasonRepository seasonRepository;
 
 	@Autowired
-	DoramaComponent targetDoramaComponent;
+	DramaComponent targetDramaComponent;
 
 	@Autowired
 	ChannelComponent channelComponent;
@@ -45,24 +45,24 @@ public class SessionService {
 
 
 
-	public void setTargetDoramaComponent(Long id) {
-		setSeasonComponent(doramaRepository.findById(id).get().getSeason().getId());
-		targetDoramaComponent.setDorama(doramaRepository.findById(id).get());
+	public void setTargetDramaComponent(Long id) {
+		setSeasonComponent(dramaRepository.findById(id).get().getSeason().getId());
+		targetDramaComponent.setDrama(dramaRepository.findById(id).get());
 	}
 
-	public DoramaComponent getTargetDoramaComponent() {
-		return targetDoramaComponent;
+	public DramaComponent getTargetDramaComponent() {
+		return targetDramaComponent;
 	}
 
-	public void setNullTargetDoramaComponent() {
-		targetDoramaComponent.setDorama(null);
+	public void setNullTargetDramaComponent() {
+		targetDramaComponent.setDrama(null);
 	}
 
 	public void setTragetChannelComponent(Long id) {
 
 		Channel targetChannel = channelRepository.findById(id).get();
 		channelComponent.setChannel(targetChannel);
-		setTargetDoramaComponent(targetChannel.getDorama().getId());
+		setTargetDramaComponent(targetChannel.getDrama().getId());
 
 	}
 

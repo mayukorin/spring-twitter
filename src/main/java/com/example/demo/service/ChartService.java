@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Dorama;
-import com.example.demo.model.DoramaFavoriteCount;
+import com.example.demo.model.Drama;
+import com.example.demo.model.DramaFavoriteCount;
 import com.example.demo.model.Season;
 
 
@@ -22,15 +22,15 @@ import lombok.RequiredArgsConstructor;
 public class ChartService {
 
 
-	private final DoramaFavoriteCountService doramaFavoriteCountDayService;
-	private final DoramaService doramaService;
+	private final DramaFavoriteCountService dramaFavoriteCountDayService;
+	private final DramaService dramaService;
 
 	public Map<List<String>,Map<String,List<Long>>> createChart(Season s) {
 
-		List<Dorama> doramas = doramaService.collectDoramaBySeason(s.getId());
+		List<Drama> dramas = dramaService.collectDramaBySeason(s.getId());
 		Map<List<String>,Map<String,List<Long>>> monthDatas = new LinkedHashMap<>();
 
-		if (doramas.size() > 0) {
+		if (dramas.size() > 0) {
 			Calendar startDay = (Calendar)s.getSeasonStartDay().clone();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM");
@@ -42,7 +42,7 @@ public class ChartService {
 
 				Map<String,List<Long>> countData = new LinkedHashMap<>();
 
-				List<String> days = doramaFavoriteCountDayService.collectFavoriteCountDay(sdf2.format(startDay.getTime()),s.getId());
+				List<String> days = dramaFavoriteCountDayService.collectFavoriteCountDay(sdf2.format(startDay.getTime()),s.getId());
 
 				if (days.size() == 0) {
 					days.add(sdf.format(startDay.getTime()));
@@ -51,11 +51,11 @@ public class ChartService {
 				}
 
 
-				for (Dorama d:doramas) {
+				for (Drama d:dramas) {
 
 					List<Long> counts = new ArrayList<>();
 					for (String day:days) {
-						DoramaFavoriteCount df = doramaFavoriteCountDayService.collectFavoriteCountByDoramaAndCreatedAt(day, d.getId());
+						DramaFavoriteCount df = dramaFavoriteCountDayService.collectFavoriteCountByDramaAndCreatedAt(day, d.getId());
 
 
 						if (df == null) {

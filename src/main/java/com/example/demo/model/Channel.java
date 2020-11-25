@@ -28,7 +28,7 @@ public class Channel {
 	private String title;
 	
 	@ManyToOne
-	private Dorama dorama;
+	private Drama drama;
 	
 	@ManyToOne
 	private SiteUser creater;

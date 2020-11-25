@@ -15,9 +15,9 @@
 				<div class="alert alert-danger" role="alert" th:text="${dateError}"></div>
 			</div>
 			<h2>ドラマ編集</h2>
-			<form th:action="@{/dorama_update{fromFlag}(fromFlag = ${fromFlag})}"
-				method="post" th:object="${dorama}" novalidate>
-				<th:block th:insert="fragments/_form_dorama :: dorama_form"></th:block>
+			<form th:action="@{/drama_update{redirectTo}(redirectTo = ${fromFlag})}"
+				method="post" th:object="${drama}" novalidate>
+				<th:block th:insert="fragments/_form_drama :: drama_form"></th:block>
 				<input type="hidden" th:field="*{id}">
 				<button type="submit" class="btn btn-primary">登録</button>
 
@@ -26,19 +26,15 @@
 			<p>
 				<a th:href="@{#}" onclick="confirmDestroy();">このドラマを削除する</a>
 			</p>
-			<p>
-				<a th:if="${fromFlag == 0}"
-					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}">ドラマ一覧へ戻る</a>
-				<a th:if="${fromFlag == 1}" th:href="@{/my_doramas}">作成したドラマ一覧へ戻る</a>
-				<a th:if="${fromFlag == 2}" th:href="@{/favorite_doramas}">お気に入りのドラマ一覧へ戻る</a>
-			</p>
+			<p th:if = "${!fromFlag.equals('none')}"><a th:href="@{${fromFlag2}}">ドラマ一覧へ戻る</a>
+			
 		</div>
 
 		<div id="footer">
 			<th:block th:insert="fragments/base :: footer"></th:block>
 		</div>
 	</div>
-	<form method="post" th:action="@{/dorama_delete{id}(id=${dorama.id})}">
+	<form method="post" th:action="@{/drama_delete/{id}/{redirectTo}(id=${drama.id},redirectTo=${fromFlag})}">
 	</form>
 	<script>
 		console.log(document.forms[0]);

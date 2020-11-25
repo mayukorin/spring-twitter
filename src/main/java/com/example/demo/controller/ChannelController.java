@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.component.DoramaComponent;
+import com.example.demo.component.DramaComponent;
 
 import com.example.demo.model.Article;
 import com.example.demo.model.Channel;
@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class ChannelController {
 	
 	@Autowired
-	DoramaComponent targetDoramaComponent;
+	DramaComponent targetDramaComponent;
 	
 	
 	
@@ -50,15 +50,18 @@ public class ChannelController {
 	@GetMapping("/channelIndex{id}")
 	public String channelIndex(@PathVariable Long id,Model model,@ModelAttribute("deleteError") String deleteError,@AuthenticationPrincipal UserDetailsImpl userDetail) {
 		
-		sessionService.setTargetDoramaComponent(id);
+		sessionService.setTargetDramaComponent(id);
 		sessionService.setNullChannelComponent();
 		
 		
-		model.addAttribute("channels",channelService.getChannelsByDoramaId(id));
+		model.addAttribute("channels",channelService.getChannelsByDramaId(id));
+		System.out.println("okkk");
+		System.out.println(channelService.getChannelsByDramaId(id).get(0).getDrama().getName());
 		model.addAttribute("sessionService", sessionService);
 		
 		
-		model.addAttribute("favoriteFlag", favoriteService.CountFavoriteByUserAndDorama(userDetail.getSiteUser().getId(),id));
+		model.addAttribute("favoriteFlag", favoriteService.CountFavoriteByUserAndDrama(userDetail.getSiteUser().getId(),id));
+		model.addAttribute("fromMyChannel","channelIndex"+sessionService.getTargetDramaComponent().getDrama().getId());
 		
 		
 		
@@ -84,29 +87,27 @@ public class ChannelController {
 			model.addAttribute("sessionService", sessionService);
 			return "channelNew";
 		}
-		channelService.insert(channel, userDetail,sessionService.getTargetDoramaComponent().getDorama());
+		channelService.insert(channel, userDetail,sessionService.getTargetDramaComponent().getDrama());
 		articleService.insert(article, userDetail,channel);
 		
-		return "redirect:/channelIndex"+sessionService.getTargetDoramaComponent().getDorama().getId()+"?createSuccess";
+		return "redirect:/channelIndex"+sessionService.getTargetDramaComponent().getDrama().getId()+"?createSuccess";
 	}
 	
 	@GetMapping("/channel_delete/{id}/{fromMyChannel}")
-	public String channelDelete(@PathVariable Long id,@PathVariable Long fromMyChannel,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
+	public String channelDelete(@PathVariable Long id,@PathVariable String fromMyChannel,@AuthenticationPrincipal UserDetailsImpl userDetail,Model model,RedirectAttributes redirectAttributes) {
 		
 		
 		channelService.delete(id);
 		
-		if (fromMyChannel == 1) {
-			return "redirect:/myChannel?channelDelete";
-		}
-		return "redirect:/channelIndex"+targetDoramaComponent.getDorama().getId()+"?channelDelete";
+		return "redirect:/"+fromMyChannel+"?channelDelete";
+		
 	}
 	
 	@GetMapping("/myChannel")
 	public String MyChannel(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
 		
 		model.addAttribute("myChannels", channelService.findMyCreateChannel(userDetail.getSiteUser().getId()));
-		
+		model.addAttribute("fromMyChannel","myChannel");
 		return "MyChannel";
 	}
 	

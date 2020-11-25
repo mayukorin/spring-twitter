@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.demo.model.Dorama;
+import com.example.demo.model.Drama;
 import com.example.demo.model.Season;
 import com.example.demo.model.SiteUser;
 
@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class DailyCountService {
 
 	private final SeasonService seasonService;
-	private final DoramaFavoriteCountService doramaFavoriteCountService;
+	private final DramaFavoriteCountService dramaFavoriteCountService;
 
 
 	public void dailyCount(SiteUser user) {
@@ -31,14 +31,14 @@ public class DailyCountService {
 
 			for (Season s:seasons) {
 				System.out.println(s.getSeasonStartDay().getTime());
-				if (doramaFavoriteCountService.collectFavoriteCountDayByDay(sdf.format(today.getTime()),s.getId()).size() > 0  || !(today.compareTo(s.getSeasonStartDay()) >= 0 && today.compareTo(s.getSeasonEndDay()) <= 0)) {
+				if (dramaFavoriteCountService.collectFavoriteCountDayByDay(sdf.format(today.getTime()),s.getId()).size() > 0  || !(today.compareTo(s.getSeasonStartDay()) >= 0 && today.compareTo(s.getSeasonEndDay()) <= 0)) {
 
 					continue;
 				}
 
 
-				for (Dorama d:s.getDoramas()) {
-					doramaFavoriteCountService.insert(d);
+				for (Drama d:s.getDramas()) {
+					dramaFavoriteCountService.insert(d);
 
 				}
 

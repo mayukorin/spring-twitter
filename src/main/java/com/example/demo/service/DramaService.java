@@ -9,8 +9,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Channel;
-import com.example.demo.model.Dorama;
-import com.example.demo.model.DoramaFavoriteCount;
+import com.example.demo.model.Drama;
+import com.example.demo.model.DramaFavoriteCount;
 import com.example.demo.model.Favorite;
 import com.example.demo.model.Season;
 import com.example.demo.model.SiteUser;
@@ -20,22 +20,22 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class DoramaService {
+public class DramaService {
 
-	private final DoramaRepository doramaRepository;
+	private final DramaRepository dramaRepository;
 	private final ChannelRepository channelRepository;
-	private final DoramaFavoriteCountService doramaFavoriteCountService;
+	private final DramaFavoriteCountService dramaFavoriteCountService;
 	private final SeasonService seasonService;
 	private final ChannelService channelService;
 	private final FavoriteService favoriteService;
 	private final ArticleService articleService;
 
 
-	public Dorama getDoramaById(Long id) {
-		return doramaRepository.findById(id).get();
+	public Drama getDramaById(Long id) {
+		return dramaRepository.findById(id).get();
 	}
 
-	public void insert(Dorama dorama,String start,String end,SiteUser user) {
+	public void insert(Drama drama,String start,String end,SiteUser user) {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		try {
@@ -44,20 +44,20 @@ public class DoramaService {
 
 			Calendar endCalendar = Calendar.getInstance();
 			endCalendar.setTime(dateEnd);
-			dorama.setEndDay(endCalendar);
+			drama.setEndDay(endCalendar);
 
 			Calendar startCalendar = Calendar.getInstance();
 			startCalendar.setTime(dateStart);
-			dorama.setStartDay(startCalendar);
+			drama.setStartDay(startCalendar);
 
 
-			dorama.setCreater(user);
+			drama.setCreater(user);
 
 
 
 			if (seasonService.collectStartMonth(start.substring(0,7)) == 0) {
 				Season newSeason = seasonService.insert(startCalendar,endCalendar);
-				dorama.setSeason(newSeason);
+				drama.setSeason(newSeason);
 
 			} else {
 				Season s = seasonService.CollectSeasonByStartMonth(start.substring(0,7));
@@ -67,15 +67,15 @@ public class DoramaService {
 
 				}
 
-				dorama.setSeason(s);
+				drama.setSeason(s);
 
 
 			}
 
-			doramaRepository.save(dorama);
+			dramaRepository.save(drama);
 
 			Channel c = new Channel();
-			c.setDorama(dorama);
+			c.setDrama(drama);
 			c.setTitle("放送日について");
 
 			channelRepository.save(c);
@@ -91,7 +91,7 @@ public class DoramaService {
 
 
 
-	public void update(Dorama dorama,String start,String end,SiteUser user) {
+	public void update(Drama drama,String start,String end,SiteUser user) {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		try {
@@ -100,16 +100,16 @@ public class DoramaService {
 
 			Calendar endCalendar = Calendar.getInstance();
 			endCalendar.setTime(dateEnd);
-			dorama.setEndDay(endCalendar);
+			drama.setEndDay(endCalendar);
 
 			Calendar startCalendar = Calendar.getInstance();
 			startCalendar.setTime(dateStart);
-			dorama.setStartDay(startCalendar);
+			drama.setStartDay(startCalendar);
 
 
 			if (seasonService.collectStartMonth(start.substring(0,7)) == 0) {
 				Season newSeason = seasonService.insert(startCalendar,endCalendar);
-				dorama.setSeason(newSeason);
+				drama.setSeason(newSeason);
 
 			} else {
 				Season s = seasonService.CollectSeasonByStartMonth(start.substring(0,7));
@@ -119,7 +119,7 @@ public class DoramaService {
 
 				}
 
-				dorama.setSeason(s);
+				drama.setSeason(s);
 
 
 			}
@@ -127,7 +127,7 @@ public class DoramaService {
 
 
 
-			doramaRepository.save(dorama);
+			dramaRepository.save(drama);
 
 
 		} catch (ParseException e) {
@@ -139,7 +139,7 @@ public class DoramaService {
 
 	public void delete(Long id) {
 
-		List<Channel> channels = channelService.getChannelsByDoramaId(id);
+		List<Channel> channels = channelService.getChannelsByDramaId(id);
 
 		for (Channel channel:channels) {
 
@@ -147,64 +147,47 @@ public class DoramaService {
 
 		}
 
-		List<Favorite> favorites = favoriteService.collectFavoritesByDorama(id);
+		List<Favorite> favorites = favoriteService.collectFavoritesByDrama(id);
 
 		for (Favorite f:favorites) {
 			favoriteService.deleteById(f.getId());
 		}
 
-		List<DoramaFavoriteCount> dfs = doramaFavoriteCountService.collectDoramaFavoriteCountByDorama(id);
+		List<DramaFavoriteCount> dfs = dramaFavoriteCountService.collectDramaFavoriteCountByDrama(id);
 
-		for (DoramaFavoriteCount df:dfs) {
+		for (DramaFavoriteCount df:dfs) {
 
-			doramaFavoriteCountService.deleteById(df.getId());
+			dramaFavoriteCountService.deleteById(df.getId());
 		}
-		doramaRepository.deleteById(id);
+		dramaRepository.deleteById(id);
 	}
 
 	public List<String> collectStartMonth() {
 
 
-		return doramaRepository.collectStartMonth();
+		return dramaRepository.collectStartMonth();
 	}
 
-	public List<Dorama> collectDoramaByStart(String d) {
+	
+	public List<Drama> collectDramaFavoriteByUser(Long id) {
 
-		List<Dorama> doramas = doramaRepository.collectDoramaByStart(d);
-		if (doramas.size() > 0) {
-			Calendar latestStartDay = (Calendar)doramas.get(0).getStartDay().clone();
-			System.out.println(latestStartDay.getTime());
-			latestStartDay.add(Calendar.MONTH, -1);
-			System.out.println(latestStartDay.getTime());
-		}
-		return doramaRepository.collectDoramaByStart(d);
+		return dramaRepository.collectDramaFavoriteByUser(id);
 	}
 
-
-	public String[] collectDoramaNameByStart(String d) {
-		return doramaRepository.collectDoramaNameByStart(d).toArray(new String[doramaRepository.collectDoramaNameByStart(d).size()]);
-
+	public List<Drama> collectDramaBySeason(Long id) {
+		return dramaRepository.collectDramaBySeason(id);
 	}
 
-	public List<Dorama> collectDoramaFavoriteByUser(Long id) {
-
-		return doramaRepository.collectDoramaFavoriteByUser(id);
+	public List<Drama> collectDramaByKeyword(String keyword) {
+		return dramaRepository.collectDramaByKeyword(keyword);
 	}
 
-	public List<Dorama> collectDoramaBySeason(Long id) {
-		return doramaRepository.collectDoramaBySeason(id);
+	public List<Drama> collectDramaByCreater(Long id) {
+		return dramaRepository.collectDramaByCreater(id);
 	}
 
-	public List<Dorama> collectDoramaByKeyword(String keyword) {
-		return doramaRepository.collectDoramaByKeyword(keyword);
-	}
-
-	public List<Dorama> collectDoramaByCreater(Long id) {
-		return doramaRepository.collectDoramaByCreater(id);
-	}
-
-	public Dorama findById(Long id) {
-		return doramaRepository.findById(id).get();
+	public Drama findById(Long id) {
+		return dramaRepository.findById(id).get();
 	}
 
 

@@ -78,6 +78,10 @@ public class ArticleService {
 	public List<Article> collectArticlesByChannelId(Long id) {
 		return articleRepository.searchArticleByChannel(id);
 	}
+	
+	public List<Article> searchAllArticleByChannel(Long id) {
+		return articleRepository.searchAllArticleByChannel(id);
+	}
 
 	public Long FindMaxIdInColumn(Long id) {
 		return articleRepository.FindMaxIdInColumn(id);

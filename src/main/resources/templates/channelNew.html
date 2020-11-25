@@ -29,7 +29,7 @@
 				<button type="submit" class="btn btn-primary">登録</button>
 			</form>
 			<br> <a
-				th:href="@{/channelIndex{id}(id=${sessionService.getTargetDoramaComponent().getDorama().id})}">[[${sessionService.getTargetDoramaComponent().getDorama().name}]]のチャンネル一覧に戻る</a>
+				th:href="@{/channelIndex{id}(id=${sessionService.getTargetDramaComponent().getDrama().id})}">[[${sessionService.getTargetDramaComponent().getDrama().name}]]のチャンネル一覧に戻る</a>
 
 
 		</div>

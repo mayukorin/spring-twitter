@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import com.example.demo.component.DoramaComponent;
+import com.example.demo.component.DramaComponent;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserDetailsImpl;
 
@@ -16,7 +16,7 @@ public class NotCreateBlanktValidator implements ConstraintValidator<NotCreateBl
 	private final UserRepository userRepository;
 
 	@Autowired
-	DoramaComponent targetDoramaComponent;
+	DramaComponent targetDramaComponent;
 
 
 	public NotCreateBlanktValidator() {

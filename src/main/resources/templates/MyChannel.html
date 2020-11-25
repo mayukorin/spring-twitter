@@ -11,10 +11,7 @@
 			<th:block th:insert="fragments/base :: login_header"></th:block>
 		</div>
 		<div id="cont">
-			<!--  -<div
-				th:text="${dorama.season.year}+${dorama.season.seasonName.seasonName}"></div>
-			<br>
-			-->
+			
 			<div th:if="${param.channelDelete}">
 
 				<div class="alert alert-success" role="alert">チャンネルの削除が完了しました</div>
@@ -35,13 +32,13 @@
 					<tbody>
 						<tr th:each="channel:${myChannels}" th:object="${channel}">
 							<td><div th:text="*{title}"></div></td>
-							<td><div th:text="*{dorama.name}"></div></td>
+							<td><div th:text="*{drama.name}"></div></td>
 							<td><a th:href="@{/article_index{id}(id=*{id})}">コメントを見る</a></td>
 							<td>
 								<div
 									th:if="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">
 									<a
-										th:href="@{/channel_delete/{id}/{fromMyChannel}(id=*{id},fromMyChannel=1)}">チャンネルを削除する</a>
+										th:href="@{/channel_delete/{id}/{fromMyChannel}(id=*{id},fromMyChannel=${fromMyChannel})}">チャンネルを削除する</a>
 								</div>
 								<div
 									th:unless="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">

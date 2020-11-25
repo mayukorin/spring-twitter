@@ -21,8 +21,8 @@
 
 					<div>
 						<span><a
-							th:href="@{doramaIndex{id}(id=*{channel.dorama.season.id})}">[[${#dates.format(article.channel.dorama.season.getDoramaStartDay().getTime(),'yyyy-MM')}]]</a></span>><span><a
-							th:href="@{/channelIndex{id}(id=*{channel.dorama.id})}">[[${article.channel.dorama.name}]]</a></span>><span><a
+							th:href="@{dramaIndex{id}(id=*{channel.drama.season.id})}">[[${#dates.format(article.channel.drama.season.getDramaStartDay().getTime(),'yyyy-MM')}]]</a></span>><span><a
+							th:href="@{/channelIndex{id}(id=*{channel.drama.id})}">[[${article.channel.drama.name}]]</a></span>><span><a
 							th:href="@{/article_index{id}(id=*{channel.id})}">[[${{article.channel.title}}]]</a></span>
 					</div>
 					<br>
@@ -54,7 +54,7 @@
 					<div
 						th:if="${#authentication.principal.getSiteUser().getId() == article.siteuser.id}">
 						<a
-							th:href="@{/article_delete/{id}/{fromMyArticleFlag}(id=*{id},fromMyArticleFlag = 1)}">コメントを削除する</a>
+							th:href="@{/article_delete/{id}/{fromMyArticleFlag}(id=*{id},fromMyArticleFlag = ${fromMyChannel})}">コメントを削除する</a>
 					</div>
 					<hr>
 				</div>

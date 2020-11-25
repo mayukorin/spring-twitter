@@ -14,15 +14,15 @@
 			<div th:if="${param.createSuccess}">
 				<div class="alert alert-success" role="alert">コメントを作成しました</div>
 			</div>
-			<div th:if="${param.deleteSuccess}">
+			<div th:if="${param.delete}">
 				<div class="alert alert-success" role="alert">コメントを削除しました</div>
 			</div>
 			<div>
 				<a th:href="@{/topPage}">TopPage</a>><a
-					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
-					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDoramaStartDay().getTime(),'yyyy-MM')}"></span></a>><a
-					th:href="@{/channelIndex{id}(id=${sessionService.getTargetDoramaComponent().getDorama().id})}"><span
-					th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></span></a>><a
+					th:href="@{/dramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
+					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDramaStartDay().getTime(),'yyyy-MM')}"></span></a>><a
+					th:href="@{/channelIndex{id}(id=${sessionService.getTargetDramaComponent().getDrama().id})}"><span
+					th:text="${sessionService.getTargetDramaComponent().getDrama().name}"></span></a>><a
 					th:href="@{/article_index{id}(id=${sessionService.getChannelComponent().getChannel().id})}"><span
 					th:text="${sessionService.getChannelComponent().getChannel().title}"></span></a>>コメント番号<span
 					th:text="${sessionService.getArticleComponent().getArticle().IdInChannel}"></span>
@@ -61,7 +61,7 @@
 			<div
 				th:if="${sessionService.getArticleComponent().getArticle().siteuser != null && #authentication.principal.getSiteUser().getId() == sessionService.getArticleComponent().getArticle().siteuser.id}">
 				<br> <a
-					th:href="@{/article_delete/{id}/{fromMyChannel}(id=${sessionService.getArticleComponent().getArticle().id},fromMyChannel = 0)}">コメントを削除する</a>
+					th:href="@{/article_delete/{id}/{fromMyChannel}(id=${sessionService.getArticleComponent().getArticle().id},fromMyChannel = ${fromMyChannel2})}">コメントを削除する</a>
 			</div>
 			<hr>
 			<form th:action="@{/reply_create}" method="post" novalidate
@@ -108,7 +108,7 @@
 				<div
 					th:if="${reply.ReplyArticle.siteuser != null && #authentication.principal.getSiteUser().getId() == reply.ReplyArticle.siteuser.id}">
 					<a
-						th:href="@{/article_delete/{id}/{fromMyChannel}(id=*{ReplyArticle.id},fromMyChannel = 2)}">コメントを削除する</a>
+						th:href="@{/article_delete/{id}/{fromMyChannel}(id=*{ReplyArticle.id},fromMyChannel = ${fromMyChannel})}">コメントを削除する</a>
 				</div>
 				<hr>
 			</div>

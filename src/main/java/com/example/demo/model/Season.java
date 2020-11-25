@@ -25,12 +25,12 @@ public class Season {
 	
 	private Calendar seasonEndDay;
 	
-	private Calendar doramaStartDay;
+	private Calendar dramaStartDay;
 	
 	
 	
 	@OneToMany(mappedBy="season")
-	private List<Dorama> doramas;
+	private List<Drama> dramas;
 	
 	public String translateCalendarToSimpleYearAndMonth(Calendar c) {
 		

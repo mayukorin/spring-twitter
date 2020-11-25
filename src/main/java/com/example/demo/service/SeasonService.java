@@ -16,25 +16,25 @@ public class SeasonService {
 
 	private final SeasonRepository seasonRepository;
 
-	public Season insert(Calendar doramaStartDay,Calendar doramaEndDay) {
+	public Season insert(Calendar dramaStartDay,Calendar dramaEndDay) {
 
 		Season s = new Season();
 
-		Calendar seasonStartDay = (Calendar)doramaStartDay.clone();
+		Calendar seasonStartDay = (Calendar)dramaStartDay.clone();
 		int day = seasonStartDay.getActualMinimum(Calendar.DAY_OF_MONTH);
 		seasonStartDay.set(Calendar.DAY_OF_MONTH, day);
 		seasonStartDay.add(Calendar.MONTH, -1);
 
 
-		Calendar seasonEndDay = (Calendar)doramaEndDay.clone();
-		int dayEnd = doramaEndDay.getActualMaximum(Calendar.DAY_OF_MONTH);
+		Calendar seasonEndDay = (Calendar)dramaEndDay.clone();
+		int dayEnd = dramaEndDay.getActualMaximum(Calendar.DAY_OF_MONTH);
 		seasonEndDay.set(Calendar.DAY_OF_MONTH, dayEnd);
 
 
 
 		s.setSeasonEndDay(seasonEndDay);
 		s.setSeasonStartDay(seasonStartDay);
-		s.setDoramaStartDay((Calendar)doramaStartDay.clone());
+		s.setDramaStartDay((Calendar)dramaStartDay.clone());
 
 		seasonRepository.save(s);	
 
@@ -42,11 +42,11 @@ public class SeasonService {
 
 	}
 
-	public Season update(Season s,Calendar doramaEndDay) {
+	public Season update(Season s,Calendar dramaEndDay) {
 
 
-		Calendar seasonEndDay = (Calendar)doramaEndDay.clone();
-		int dayEnd = doramaEndDay.getActualMaximum(Calendar.DAY_OF_MONTH);
+		Calendar seasonEndDay = (Calendar)dramaEndDay.clone();
+		int dayEnd = dramaEndDay.getActualMaximum(Calendar.DAY_OF_MONTH);
 		seasonEndDay.set(Calendar.DAY_OF_MONTH, dayEnd);
 
 

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.component.ChannelComponent;
-import com.example.demo.component.DoramaComponent;
+import com.example.demo.component.DramaComponent;
 import com.example.demo.model.Article;
 import com.example.demo.service.ArticleService;
 import com.example.demo.service.ReplyService;
@@ -40,7 +40,7 @@ public class ArticleController {
 	ChannelComponent channelComponent;
 	
 	@Autowired
-	DoramaComponent targetDoramaComponent;
+	DramaComponent targetDramaComponent;
 	
 
 	
@@ -80,17 +80,12 @@ public class ArticleController {
 
 	
 	@GetMapping("/article_delete/{id}/{fromMyChannel}")
-	public String articleDelter(@PathVariable Long id,@PathVariable Long fromMyChannel) {
+	public String articleDelter(@PathVariable Long id,@PathVariable String fromMyChannel) {
 		
 		articleService.delete(id);
 		
-		if (fromMyChannel == 0) {
-			return "redirect:/article_index"+channelComponent.getChannel().getId()+"?delete";
-		} else if (fromMyChannel == 2) {
-			return "redirect:/reply_index"+sessionService.getArticleComponent().getArticle().getId()+"?deleteSuccess";
-		}
+		return "redirect:/"+fromMyChannel+"?delete";
 		
-		return "redirect:/myArticle?delete";
 	}
 	
 	@GetMapping("/article_index{id}")
@@ -99,6 +94,7 @@ public class ArticleController {
 		sessionService.setTragetChannelComponent(id);
 		model.addAttribute("sessionService", sessionService);
 		model.addAttribute("articles", articleService.collectArticlesByChannelId(id));
+		model.addAttribute("fromMyChannel", "article_index"+channelComponent.getChannel().getId());
 		
 		return "articleIndex";
 		
@@ -110,6 +106,7 @@ public class ArticleController {
 	public String myArticle(@AuthenticationPrincipal UserDetailsImpl userDetail,Model model) {
 		
 		model.addAttribute("myArticles",articleService.collectMyArticle(userDetail.getSiteUser().getId()));
+		model.addAttribute("fromMyChannel", "myArticle");
 		
 		
 		return "myArticle";

@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 
 
-import com.example.demo.validator.UniqueDorama;
+import com.example.demo.validator.UniqueDrama;
 
 
 import lombok.Getter;
@@ -24,14 +24,14 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Dorama {
+public class Drama {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@NotBlank
-	@UniqueDorama
+	@UniqueDrama
 	private String name;
 	
 	
@@ -46,13 +46,13 @@ public class Dorama {
 	@ManyToOne
 	private SiteUser creater;
 	
-	@OneToMany(mappedBy="dorama")
+	@OneToMany(mappedBy="drama")
 	private List<Favorite> favorites;
 	
-	@OneToMany(mappedBy="dorama")
-	private List<DoramaFavoriteCount> favoriteCounts;
+	@OneToMany(mappedBy="drama")
+	private List<DramaFavoriteCount> favoriteCounts;
 	
-	@OneToMany(mappedBy="dorama")
+	@OneToMany(mappedBy="drama")
 	private List<Channel> channels;
 	
 	

@@ -20,14 +20,14 @@
 			</div>
 			<div>
 				<a th:href="@{/topPage}">TopPage</a>><a
-					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
-					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDoramaStartDay().getTime(),'yyyy-MM')}"></span></a>><span
-					th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></span>
+					th:href="@{/dramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
+					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDramaStartDay().getTime(),'yyyy-MM')}"></span></a>><span
+					th:text="${sessionService.getTargetDramaComponent().getDrama().name}"></span>
 			</div>
 			<br>
 
 			<h1
-				th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></h1>
+				th:text="${sessionService.getTargetDramaComponent().getDrama().name}"></h1>
 			<br>
 
 			<div th:if="${favoriteFlag == 0}">
@@ -57,7 +57,7 @@
 								<div
 									th:if="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">
 									<a
-										th:href="@{/channel_delete/{id}/{fromMyChannel}(id=*{id},fromMyChannel=0)}">チャンネルを削除する</a>
+										th:href="@{/channel_delete/{id}/{fromMyChannel}(id=*{id},fromMyChannel=${fromMyChannel})}">チャンネルを削除する</a>
 								</div>
 								<div
 									th:unless="${ channel.creater != null && #authentication.principal.getSiteUser().getId() == channel.creater.id}">

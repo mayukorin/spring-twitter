@@ -15,8 +15,8 @@
 				<div class="alert alert-danger" role="alert" th:text="${dateError}"></div>
 			</div>
 			<h1>ドラマ登録</h1><br>
-			<form th:action="@{/dorama_create}" method="post"  th:object="${dorama}" novalidate>
-				<th:block th:insert="fragments/_form_dorama :: dorama_form"></th:block>
+			<form th:action="@{/drama_create}" method="post"  th:object="${drama}" novalidate>
+				<th:block th:insert="fragments/_form_drama :: drama_form"></th:block>
 				<button type="submit" class="btn btn-primary">登録</button> 
 				
 			</form><br>

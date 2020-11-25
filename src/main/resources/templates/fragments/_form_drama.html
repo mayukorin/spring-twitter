@@ -5,10 +5,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<th:block th:fragment="dorama_form">
+	<th:block th:fragment="drama_form">
 
 		<div class="form-group">
-			<label for="doramaName">ドラマ名</label> <input type="text"
+			<label for="dramaName">ドラマ名</label> <input type="text"
 				th:errorclass="is-invalid" th:field="*{name}" class="form-control">
 			<div class="invalid-feedback" th:errors="*{name}"></div>
 			<br>

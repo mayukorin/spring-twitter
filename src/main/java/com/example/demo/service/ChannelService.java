@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Article;
 import com.example.demo.model.Channel;
-import com.example.demo.model.Dorama;
+import com.example.demo.model.Drama;
 import com.example.demo.model.Reply;
 
 import com.example.demo.repository.ChannelRepository;
@@ -22,10 +22,10 @@ public class ChannelService {
 	public final ArticleService articleService;
 	public final ReplyService replyService;
 
-	public void insert(Channel channel,UserDetailsImpl userdetail,Dorama dorama) {
+	public void insert(Channel channel,UserDetailsImpl userdetail,Drama drama) {
 
 		channel.setCreater(userdetail.getSiteUser());
-		channel.setDorama(dorama);
+		channel.setDrama(drama);
 
 		channelRepository.save(channel);
 
@@ -35,10 +35,14 @@ public class ChannelService {
 
 	public void delete(Long id) {
 
-		List<Article> articleByChannel = articleService.collectArticlesByChannelId(id);
+		List<Article> articleByChannel = articleService.searchAllArticleByChannel(id);
 
 		for (Article article:articleByChannel) {
 			for (Reply r:article.getReplysForMe()) {
+				replyService.deleteById(r.getId());
+			}
+			
+			for (Reply r:article.getMyReplys()) {
 				replyService.deleteById(r.getId());
 			}
 
@@ -55,9 +59,9 @@ public class ChannelService {
 		return userdetail.getSiteUser().getId() == channelRepository.findById(id).get().getCreater().getId();
 	}
 
-	public List<Channel> getChannelsByDoramaId(Long id) {
+	public List<Channel> getChannelsByDramaId(Long id) {
 
-		return channelRepository.findChannelByDoramaId(id);
+		return channelRepository.findChannelByDramaId(id);
 	}
 
 	public List<Channel> findMyCreateChannel(Long id) {

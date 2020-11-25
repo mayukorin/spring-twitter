@@ -48,7 +48,7 @@ public class SiteUser {
 	private List<Favorite> favorites;
 	
 	@OneToMany(mappedBy="creater")
-	private List<Dorama> doramas;
+	private List<Drama> dramas;
 	
 	private Boolean admin;
 	

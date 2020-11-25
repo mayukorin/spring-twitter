@@ -43,7 +43,8 @@ public class ReplyController {
 		
 		sessionService.setArticleComponent(id);
 		model.addAttribute("sessionService", sessionService);
-		
+		model.addAttribute("fromMyChannel", "reply_index"+sessionService.getArticleComponent().getArticle().getId());
+		model.addAttribute("fromMyChannel2", "article_index"+channelComponent.getChannel().getId());
 		
 		return "replyIndex";
 		

@@ -19,14 +19,14 @@
 			</div>
 			<div>
 				<a th:href="@{/topPage}">TopPage</a>><a
-					th:href="@{/doramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
-					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDoramaStartDay().getTime(),'yyyy-MM')}"></span></a>><a
-					th:href="@{/channelIndex{id}(id=${sessionService.getTargetDoramaComponent().getDorama().id})}"><span
-					th:text="${sessionService.getTargetDoramaComponent().getDorama().name}"></span></a>><span
+					th:href="@{/dramaIndex{id}(id=${sessionService.getSeasonComponent().getSeason().id})}"><span
+					th:text="${#dates.format(sessionService.getSeasonComponent().getSeason().getDramaStartDay().getTime(),'yyyy-MM')}"></span></a>><a
+					th:href="@{/channelIndex{id}(id=${sessionService.getTargetDramaComponent().getDrama().id})}"><span
+					th:text="${sessionService.getTargetDramaComponent().getDrama().name}"></span></a>><span
 					th:text="${sessionService.getChannelComponent().getChannel().title}"></span>
 			</div>
 			<br>
-			<h1>[[${sessionService.getChannelComponent().getChannel().dorama.name}]]</h1>
+			<h1>[[${sessionService.getChannelComponent().getChannel().drama.name}]]</h1>
 			<br>
 			<h2 id="channelTitle">[[${sessionService.getChannelComponent().getChannel().title}]]</h2>
 			<div>
@@ -75,7 +75,7 @@
 					<div
 						th:if="${article.siteuser != null && #authentication.principal.getSiteUser().getId() == article.siteuser.id}">
 						<a
-							th:href="@{/article_delete/{id}/{fromMyArticleFlag}(id=*{id},fromMyArticleFlag=0)}">コメントを削除する</a>
+							th:href="@{/article_delete/{id}/{fromMyArticleFlag}(id=*{id},fromMyArticleFlag=${fromMyChannel})}">コメントを削除する</a>
 					</div>
 
 					<hr>

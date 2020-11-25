@@ -17,7 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class DoramaFavoriteCount {
+public class DramaFavoriteCount {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class DoramaFavoriteCount {
 	private Date created_at;
 	
 	@ManyToOne
-	private Dorama dorama;
+	private Drama drama;
 	
 	private Long favoriteCount;
 	

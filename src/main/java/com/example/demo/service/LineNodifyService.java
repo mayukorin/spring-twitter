@@ -28,8 +28,8 @@ public class LineNodifyService {
 
 		if (a.getChannel().getCreater() == null) {
 
-			String message = "ドラマ「"+a.getChannel().getDorama().getName()+"」の「放送日について」チャンネルでの投稿："+a.getContent();
-			List<SiteUser> siteusers = faroviteService.collectFavoriteUsers(a.getChannel().getDorama().getId());
+			String message = "ドラマ「"+a.getChannel().getDrama().getName()+"」の「放送日について」チャンネルでの投稿："+a.getContent();
+			List<SiteUser> siteusers = faroviteService.collectFavoriteUsers(a.getChannel().getDrama().getId());
 
 			for (SiteUser u:siteusers) {
 

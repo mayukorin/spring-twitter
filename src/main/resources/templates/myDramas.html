@@ -12,10 +12,13 @@
 		</div>
 		<div id="cont">
 			<h1>作成したドラマ一覧</h1><br>
-			<div th:if="${param.doramaUpdateSuccess}">
+			<div th:if="${param.dramaUpdateSuccess}">
 				<div class="alert alert-success" role="alert">ドラマの基本情報を更新しました。</div>
 			</div>
-			<div th:if="${doramas.size() > 0}">
+			<div th:if="${param.delete}">
+				<div class="alert alert-success" role="alert">ドラマの削除が完了しました。</div>
+			</div>
+			<div th:if="${dramas.size() > 0}">
 				<table class="table table-striped">
 				  <thead>
 				    <tr>
@@ -28,17 +31,17 @@
 				  </thead>
 				  <tbody>
 				  
-				  		<tr　th:each="dorama:${doramas}" th:object="${dorama}">
+				  		<tr　th:each="drama:${dramas}" th:object="${drama}">
 				  			<td><div th:text="*{name}"></div></td>
-				  			<td><div th:text="${#dates.format(dorama.startDay.getTime(),'yyyy-MM-dd HH:mm')}"></div></td>
-				  			<td><div th:text="${#dates.format(dorama.endDay.getTime(),'yyyy-MM-dd HH:mm')}"></div></td>
+				  			<td><div th:text="${#dates.format(drama.startDay.getTime(),'yyyy-MM-dd HH:mm')}"></div></td>
+				  			<td><div th:text="${#dates.format(drama.endDay.getTime(),'yyyy-MM-dd HH:mm')}"></div></td>
 				  			
-				  			<td><a th:href="@{channelIndex{id}(id=*{id})}">チャンネル(全[[${dorama.channels.size()}]]件)を見る</a></td>
+				  			<td><a th:href="@{channelIndex{id}(id=*{id})}">チャンネル(全[[${drama.channels.size()}]]件)を見る</a></td>
 				  			
-				  				<td　th:if="${dorama.creater.id == #authentication.principal.getSiteUser().getId()}"><a th:href="@{/doramaEdit/{id}/{fromFlag}(id=*{id},fromFlag = 1)}">基本情報を編集する</a></td>
+				  				<td　th:if="${drama.creater.id == #authentication.principal.getSiteUser().getId()}"><a th:href="@{/dramaEdit/{id}/{fromFlag}(id=*{id},fromFlag = my_dramas)}">基本情報を編集する</a></td>
 				  			
 				  			
-				  				<td　th:unless="${dorama.creater.id == #authentication.principal.getSiteUser().getId()}">ー</td>
+				  				<td　th:unless="${drama.creater.id == #authentication.principal.getSiteUser().getId()}">ー</td>
 				  			
 				  		</tr>
 				  	

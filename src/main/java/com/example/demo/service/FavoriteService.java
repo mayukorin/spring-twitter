@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 
 import com.example.demo.model.SiteUser;
-import com.example.demo.model.Dorama;
+import com.example.demo.model.Drama;
 import com.example.demo.model.Favorite;
 
 import java.util.List;
@@ -19,33 +19,33 @@ public class FavoriteService {
 
 	private final FavoriteRepository favoriteRepository;
 
-	public void save(SiteUser user,Dorama dorama) {
+	public void save(SiteUser user,Drama drama) {
 
 		Favorite f = new Favorite();
 
-		f.setDorama(dorama);
+		f.setDrama(drama);
 		f.setUser(user);
 
 		favoriteRepository.save(f);
 
 	}
-	public void delete(SiteUser user,Dorama dorama) {
+	public void delete(SiteUser user,Drama drama) {
 
-		Favorite deleteFavorite = favoriteRepository.FindFavoriteByUserAndDorama(user.getId(), dorama.getId());
+		Favorite deleteFavorite = favoriteRepository.FindFavoriteByUserAndDrama(user.getId(), drama.getId());
 		favoriteRepository.deleteById(deleteFavorite.getId());
 	}
 
-	public Long CountFavoriteByUserAndDorama(Long siteuserId,Long doramaId) {
+	public Long CountFavoriteByUserAndDrama(Long siteuserId,Long dramaId) {
 
-		return favoriteRepository.CountFavoriteByUserAndDorama(siteuserId,doramaId);
+		return favoriteRepository.CountFavoriteByUserAndDrama(siteuserId,dramaId);
 	}
 
-	public List<Favorite> collectFavoritesByDorama(Long id) {
-		return favoriteRepository.collectFavoritesByDorama(id);
+	public List<Favorite> collectFavoritesByDrama(Long id) {
+		return favoriteRepository.collectFavoritesByDrama(id);
 	}
 
-	public Long CountFavoriteByDorama(Long id) {
-		return favoriteRepository.CountFavoriteByDorama(id);
+	public Long CountFavoriteByDrama(Long id) {
+		return favoriteRepository.CountFavoriteByDrama(id);
 	}
 
 	public List<SiteUser> collectFavoriteUsers(Long id) {

@@ -19,7 +19,7 @@ public class Favorite {
 	private Long id;
 	
 	@ManyToOne
-	private Dorama dorama;
+	private Drama drama;
 	
 	@ManyToOne
 	private SiteUser user;

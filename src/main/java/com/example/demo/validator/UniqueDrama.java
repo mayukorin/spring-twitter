@@ -10,8 +10,8 @@ import javax.validation.Payload;
 
 @Target({ElementType.METHOD,ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy=UniqueDoramaValidator.class)
-public @interface UniqueDorama {
+@Constraint(validatedBy=UniqueDramaValidator.class)
+public @interface UniqueDrama {
 
 
 	String message() default "そのドラマは既に登録されています";

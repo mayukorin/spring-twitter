@@ -32,8 +32,8 @@
 
 						<tr th:each="season:${seasonss}" th:object="${season}">
 							<td
-								th:text="${#dates.format(season.getDoramaStartDay().getTime(),'yyyy-MM')}"></td>
-							<td><a th:href="@{/doramaIndex{id}(id=${season.id})}">ドラマ一覧（全[[${season.doramas.size()}]]件）を見る</a></td>
+								th:text="${#dates.format(season.getDramaStartDay().getTime(),'yyyy-MM')}"></td>
+							<td><a th:href="@{/dramaIndex{id}(id=${season.id})}">ドラマ一覧（全[[${season.dramas.size()}]]件）を見る</a></td>
 
 						</tr>
 
@@ -43,7 +43,7 @@
 				<br>
 
 			</div>
-			<a th:href="@{/doramaNew}">新しいドラマを登録する</a>
+			<a th:href="@{/dramaNew}">新しいドラマを登録する</a>
 		</div>
 		<div id="footer">
 			<th:block th:insert="fragments/base :: footer"></th:block>
